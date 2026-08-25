@@ -1,0 +1,77 @@
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { GraduationCap, Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { to: "/", label: "Home" },
+  { to: "/about", label: "About us" },
+  { to: "/location", label: "Company location" },
+  { to: "/privacy", label: "Privacy & Policy" },
+] as const;
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur">
+      <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
+        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+          <span className="surface-hero flex h-9 w-9 items-center justify-center rounded-xl text-primary-foreground">
+            <GraduationCap className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <span className="font-display text-lg font-bold tracking-tight">Kaelo LMS</span>
+        </Link>
+
+        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              activeProps={{ className: "bg-secondary text-foreground" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="hidden md:block">
+          <Button asChild size="sm">
+            <Link to="/about">Get started</Link>
+          </Button>
+        </div>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </Button>
+      </div>
+
+      <div className={cn("border-t border-border/70 md:hidden", open ? "block" : "hidden")}>
+        <nav aria-label="Mobile" className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              activeOptions={{ exact: item.to === "/" }}
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              activeProps={{ className: "bg-secondary text-foreground" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
