@@ -13,11 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as FacilitatorLoginRouteImport } from './routes/facilitator-login'
 import { Route as LocationRouteImport } from './routes/location'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedFacilitatorRouteImport } from './routes/_authenticated/facilitator'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,6 +38,11 @@ const AboutRoute = AboutRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FacilitatorLoginRoute = FacilitatorLoginRouteImport.update({
+  id: '/facilitator-login',
+  path: '/facilitator-login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationRoute = LocationRouteImport.update({
@@ -63,26 +70,36 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFacilitatorRoute =
+  AuthenticatedFacilitatorRouteImport.update({
+    id: '/facilitator',
+    path: '/facilitator',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/facilitator-login': typeof FacilitatorLoginRoute
   '/location': typeof LocationRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/facilitator': typeof AuthenticatedFacilitatorRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/facilitator-login': typeof FacilitatorLoginRoute
   '/location': typeof LocationRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/facilitator': typeof AuthenticatedFacilitatorRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -90,11 +107,13 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/facilitator-login': typeof FacilitatorLoginRoute
   '/location': typeof LocationRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/facilitator': typeof AuthenticatedFacilitatorRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,32 +121,38 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/facilitator-login'
     | '/location'
     | '/privacy'
     | '/reset-password'
     | '/terms'
     | '/dashboard'
+    | '/facilitator'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/auth'
+    | '/facilitator-login'
     | '/location'
     | '/privacy'
     | '/reset-password'
     | '/terms'
     | '/dashboard'
+    | '/facilitator'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
     | '/auth'
+    | '/facilitator-login'
     | '/location'
     | '/privacy'
     | '/reset-password'
     | '/terms'
     | '/_authenticated/dashboard'
+    | '/_authenticated/facilitator'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -135,6 +160,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  FacilitatorLoginRoute: typeof FacilitatorLoginRoute
   LocationRoute: typeof LocationRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -169,6 +195,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/facilitator-login': {
+      id: '/facilitator-login'
+      path: '/facilitator-login'
+      fullPath: '/facilitator-login'
+      preLoaderRoute: typeof FacilitatorLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/location': {
@@ -206,15 +239,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/facilitator': {
+      id: '/_authenticated/facilitator'
+      path: '/facilitator'
+      fullPath: '/facilitator'
+      preLoaderRoute: typeof AuthenticatedFacilitatorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedFacilitatorRoute: typeof AuthenticatedFacilitatorRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedFacilitatorRoute: AuthenticatedFacilitatorRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -225,6 +267,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  FacilitatorLoginRoute: FacilitatorLoginRoute,
   LocationRoute: LocationRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
