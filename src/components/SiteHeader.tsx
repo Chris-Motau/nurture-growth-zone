@@ -1,8 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { GraduationCap, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSession } from "@/hooks/use-session";
+import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -38,10 +41,21 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Button asChild size="sm">
-            <Link to="/about">Get started</Link>
-          </Button>
+        <div className="hidden items-center gap-2 md:flex">
+          {loading ? null : session ? (
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/dashboard">My dashboard</Link>
+              </Button>
+              <Button size="sm" variant="outline" onClick={handleSignOut}>
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <Button asChild size="sm">
+              <Link to="/auth">Sign in</Link>
+            </Button>
+          )}
         </div>
 
         <Button
