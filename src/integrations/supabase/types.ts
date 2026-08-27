@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      facilitator_accounts: {
+        Row: {
+          cohort: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean
+          updated_at: string
+        }
+        Insert: {
+          cohort?: string | null
+          created_at?: string
+          email: string
+          full_name?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Update: {
+          cohort?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -105,6 +135,7 @@ export type Database = {
         Returns: boolean
       }
       is_invited_trainee: { Args: { _email: string }; Returns: boolean }
+      is_listed_facilitator: { Args: { _email: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "facilitator" | "trainee"
