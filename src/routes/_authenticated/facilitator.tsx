@@ -1,0 +1,127 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { LogOut, ShieldAlert, Users } from "lucide-react";
+import { toast } from "sonner";
+
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const Route = createFileRoute("/_authenticated/facilitator")({
+  head: () => ({
+    meta: [
+      { title: "Facilitator workspace — Kaelo LMS" },
+      {
+        name: "description",
+        content: "Facilitator workspace for Kaelo LMS: trainee invites, cohorts and upcoming attendance tools.",
+      },
+      { property: "og:title", content: "Facilitator workspace — Kaelo LMS" },
+      { property: "og:description", content: "Manage your Kaelo LMS trainees and cohorts." },
+    ],
+  }),
+  component: FacilitatorPage,
+});
+
+function FacilitatorPage() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["facilitator-workspace"],
+    queryFn: async () => {
+      const { data: userData } = await supabase.auth.getUser();
+      const uid = userData.user?.id;
+      if (!uid) return null;
+
+      const [{ data: roles }, { data: profile }, { data: invites }] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", uid),
+        supabase.from("profiles").select("*").eq("id", uid).maybeSingle(),
+        supabase.from("trainee_invites").select("*").order("created_at", { ascending: false }),
+      ]);
+
+      const isStaff = (roles ?? []).some((r) => r.role === "facilitator" || r.role === "admin");
+      return { isStaff, profile, invites: invites ?? [] };
+    },
+  });
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    toast.success("Signed out");
+    void navigate({ to: "/facilitator-login", replace: true });
+  }
+
+  if (isLoading) {
+    return <div className="mx-auto max-w-4xl px-4 py-16 text-muted-foreground">Loading your workspace…</div>;
+  }
+
+  if (!data?.isStaff) {
+    return (
+      <div className="mx-auto w-full max-w-lg px-4 py-16 sm:px-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <ShieldAlert className="h-5 w-5 text-destructive" aria-hidden="true" />
+              Facilitators only
+            </CardTitle>
+            <CardDescription>
+              This account is not registered as a facilitator. Trainees can use the trainee dashboard instead.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex gap-2">
+            <Button onClick={() => void navigate({ to: "/dashboard" })}>Go to trainee dashboard</Button>
+            <Button variant="outline" onClick={handleSignOut}>
+              Sign out
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="font-display text-3xl font-bold tracking-tight">
+            Facilitator workspace
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            Signed in as {data.profile?.email ?? "facilitator"}.
+          </p>
+        </div>
+        <Button variant="outline" size="sm" onClick={handleSignOut}>
+          <LogOut className="mr-2 h-4 w-4" aria-hidden="true" />
+          Sign out
+        </Button>
+      </div>
+
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Users className="h-5 w-5 text-accent" aria-hidden="true" />
+            Trainee invite list
+          </CardTitle>
+          <CardDescription>
+            Emails you registered for trainees. A trainee is verified automatically when they sign up with a listed email.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {data.invites.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No trainee emails registered yet.</p>
+          ) : (
+            <ul className="divide-y divide-border rounded-lg border border-border">
+              {data.invites.map((invite) => (
+                <li key={invite.id} className="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
+                  <span className="font-medium">{invite.email}</span>
+                  <span className="text-muted-foreground">{invite.cohort ?? "—"}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
