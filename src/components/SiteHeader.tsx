@@ -96,6 +96,26 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          {loading ? null : session ? (
+            <>
+              <Link
+                to="/dashboard"
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                My dashboard
+              </Link>
+              <Button variant="outline" size="sm" className="mt-1" onClick={handleSignOut}>
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <Button asChild size="sm" className="mt-1">
+              <Link to="/auth" onClick={() => setOpen(false)}>
+                Sign in
+              </Link>
+            </Button>
+          )}
         </nav>
       </div>
     </header>
