@@ -36,7 +36,7 @@ export function SiteHeader() {
           <span className="surface-hero flex h-9 w-9 items-center justify-center rounded-xl text-primary-foreground">
             <GraduationCap className="h-5 w-5" aria-hidden="true" />
           </span>
-          <span className="font-display text-lg font-bold tracking-tight">Kaelo LMS</span>
+          <span className="font-display text-lg font-bold tracking-tight">Hamonate LMS</span>
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">

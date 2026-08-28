@@ -4,16 +4,16 @@ import { Card, CardContent } from "@/components/ui/card";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About us — Kaelo LMS" },
+      { title: "About us — Hamonate LMS" },
       {
         name: "description",
         content:
-          "Who we are: Kaelo LMS supports training programmes with structured courses, attendance and submission tracking for management, facilitators and trainees.",
+          "Who we are: Hamonate LMS supports training programmes with structured courses, attendance and submission tracking for management, facilitators and trainees.",
       },
-      { property: "og:title", content: "About Kaelo LMS" },
+      { property: "og:title", content: "About Hamonate LMS" },
       {
         property: "og:description",
-        content: "How Kaelo LMS supports management, facilitators and trainees.",
+        content: "How Hamonate LMS supports management, facilitators and trainees.",
       },
     ],
   }),
@@ -38,9 +38,9 @@ const roles = [
 function AboutPage() {
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-16 sm:px-6 md:py-20">
-      <h1 className="text-4xl font-bold">About Kaelo LMS</h1>
+      <h1 className="text-4xl font-bold">About Hamonate LMS</h1>
       <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-        Kaelo LMS was built for skills-development programmes that need more than a folder of
+        Hamonate LMS was built for skills-development programmes that need more than a folder of
         slides. It connects the people running a programme with the people learning in it: one
         curriculum, one attendance record, one place for every submission.
       </p>

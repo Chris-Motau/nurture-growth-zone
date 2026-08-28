@@ -3,16 +3,16 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms & Conditions — Kaelo LMS" },
+      { title: "Terms & Conditions — Hamonate LMS" },
       {
         name: "description",
         content:
-          "The terms governing use of Kaelo LMS accounts, course content, submissions and acceptable conduct.",
+          "The terms governing use of Hamonate LMS accounts, course content, submissions and acceptable conduct.",
       },
-      { property: "og:title", content: "Terms & Conditions — Kaelo LMS" },
+      { property: "og:title", content: "Terms & Conditions — Hamonate LMS" },
       {
         property: "og:description",
-        content: "Account rules, content ownership and acceptable use of Kaelo LMS.",
+        content: "Account rules, content ownership and acceptable use of Hamonate LMS.",
       },
     ],
   }),
@@ -30,7 +30,7 @@ const sections = [
   },
   {
     title: "3. Course content",
-    body: "Courses, lessons, modules and tasks remain the intellectual property of Kaelo LMS and its partner facilitators, and are licensed to you for the duration of your programme.",
+    body: "Courses, lessons, modules and tasks remain the intellectual property of Hamonate LMS and its partner facilitators, and are licensed to you for the duration of your programme.",
   },
   {
     title: "4. Submissions",

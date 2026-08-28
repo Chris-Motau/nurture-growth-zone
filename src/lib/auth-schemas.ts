@@ -49,8 +49,8 @@ export function fieldErrors(error: z.ZodError): Record<string, string> {
 }
 
 /** Remember-me: when unchecked, the session is dropped once the browser tab session ends. */
-const REMEMBER_KEY = "kaelo.remember-me";
-const TAB_KEY = "kaelo.tab-alive";
+const REMEMBER_KEY = "hamonate.remember-me";
+const TAB_KEY = "hamonate.tab-alive";
 
 export function setRememberMe(remember: boolean) {
   if (typeof window === "undefined") return;

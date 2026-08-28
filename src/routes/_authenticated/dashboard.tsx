@@ -10,10 +10,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Trainee dashboard — Kaelo LMS" },
-      { name: "description", content: "Your Kaelo LMS trainee account: profile details, facilitator verification status and course readiness." },
-      { property: "og:title", content: "Trainee dashboard — Kaelo LMS" },
-      { property: "og:description", content: "Your Kaelo LMS trainee account overview." },
+      { title: "Trainee dashboard — Hamonate LMS" },
+      { name: "description", content: "Your Hamonate LMS trainee account: profile details, facilitator verification status and course readiness." },
+      { property: "og:title", content: "Trainee dashboard — Hamonate LMS" },
+      { property: "og:description", content: "Your Hamonate LMS trainee account overview." },
     ],
   }),
   component: DashboardPage,

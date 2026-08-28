@@ -10,7 +10,7 @@ export function SiteFooter() {
             <span className="surface-hero flex h-9 w-9 items-center justify-center rounded-xl text-primary-foreground">
               <GraduationCap className="h-5 w-5" aria-hidden="true" />
             </span>
-            <span className="font-display text-lg font-bold">Kaelo LMS</span>
+            <span className="font-display text-lg font-bold">Hamonate LMS</span>
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
             A learning management system for facilitators, trainees and programme management —
@@ -33,8 +33,8 @@ export function SiteFooter() {
             </li>
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <a href="mailto:hello@kaelolms.co.za" className="hover:text-foreground">
-                hello@kaelolms.co.za
+              <a href="mailto:hello@hamonatelms.co.za" className="hover:text-foreground">
+                hello@hamonatelms.co.za
               </a>
             </li>
           </ul>
@@ -93,7 +93,7 @@ export function SiteFooter() {
 
       <div className="border-t border-border">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>© {new Date().getFullYear()} Kaelo LMS. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Hamonate LMS. All rights reserved.</p>
           <div className="flex gap-4">
             <Link to="/terms" className="hover:text-foreground">
               Terms &amp; Conditions

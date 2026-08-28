@@ -14,16 +14,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/facilitator-login")({
   head: () => ({
     meta: [
-      { title: "Facilitator sign in — Kaelo LMS" },
+      { title: "Facilitator sign in — Hamonate LMS" },
       {
         name: "description",
         content:
-          "Facilitators sign in to Kaelo LMS with the email and password registered for them in the system. Accounts are created by the administrator.",
+          "Facilitators sign in to Hamonate LMS with the email and password registered for them in the system. Accounts are created by the administrator.",
       },
-      { property: "og:title", content: "Facilitator sign in — Kaelo LMS" },
+      { property: "og:title", content: "Facilitator sign in — Hamonate LMS" },
       {
         property: "og:description",
-        content: "Staff access to Kaelo LMS for facilitators managing trainees, attendance and submissions.",
+        content: "Staff access to Hamonate LMS for facilitators managing trainees, attendance and submissions.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -94,7 +94,7 @@ function FacilitatorLoginPage() {
     }
 
     setBusy(false);
-    toast.success("Signed in", { description: "Welcome back to Kaelo LMS." });
+    toast.success("Signed in", { description: "Welcome back to Hamonate LMS." });
     await router.invalidate();
     void navigate({ to: "/facilitator", replace: true });
   };
@@ -143,7 +143,7 @@ function FacilitatorLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
-                placeholder="you@kaelo.co.za"
+                placeholder="you@hamonate.co.za"
                 className={cn("mt-1.5", errors["email"] && "border-destructive")}
               />
               {errors["email"] ? <p className="mt-1.5 text-xs text-destructive">{errors["email"]}</p> : null}
