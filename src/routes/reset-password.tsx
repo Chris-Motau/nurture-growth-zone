@@ -12,10 +12,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Reset your password — Kaelo LMS" },
-      { name: "description", content: "Choose a new password for your Kaelo LMS trainee account." },
-      { property: "og:title", content: "Reset your password — Kaelo LMS" },
-      { property: "og:description", content: "Set a new password for your Kaelo LMS account." },
+      { title: "Reset your password — Hamonate LMS" },
+      { name: "description", content: "Choose a new password for your Hamonate LMS trainee account." },
+      { property: "og:title", content: "Reset your password — Hamonate LMS" },
+      { property: "og:description", content: "Set a new password for your Hamonate LMS account." },
     ],
   }),
   component: ResetPasswordPage,

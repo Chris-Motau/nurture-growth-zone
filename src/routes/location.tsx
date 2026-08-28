@@ -4,13 +4,13 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 export const Route = createFileRoute("/location")({
   head: () => ({
     meta: [
-      { title: "Company location — Kaelo LMS, Johannesburg" },
+      { title: "Company location — Hamonate LMS, Johannesburg" },
       {
         name: "description",
         content:
-          "Visit Kaelo LMS at 26 Sivewright Ave, Doornfontein, Johannesburg. Office hours, phone, email and directions.",
+          "Visit Hamonate LMS at 26 Sivewright Ave, Doornfontein, Johannesburg. Office hours, phone, email and directions.",
       },
-      { property: "og:title", content: "Kaelo LMS — Company location" },
+      { property: "og:title", content: "Hamonate LMS — Company location" },
       {
         property: "og:description",
         content: "Our Johannesburg campus: address, office hours and contact details.",
@@ -71,10 +71,10 @@ function LocationPage() {
             <div>
               <h2 className="text-sm font-semibold">Email</h2>
               <a
-                href="mailto:hello@kaelolms.co.za"
+                href="mailto:hello@hamonatelms.co.za"
                 className="mt-1 block text-sm text-muted-foreground hover:text-foreground"
               >
-                hello@kaelolms.co.za
+                hello@hamonatelms.co.za
               </a>
             </div>
           </div>
@@ -82,7 +82,7 @@ function LocationPage() {
 
         <div className="shadow-soft overflow-hidden rounded-2xl border border-border">
           <iframe
-            title="Map showing Kaelo LMS in Doornfontein, Johannesburg"
+            title="Map showing Hamonate LMS in Doornfontein, Johannesburg"
             src="https://www.openstreetmap.org/export/embed.html?bbox=28.045%2C-26.205%2C28.070%2C-26.190&layer=mapnik"
             className="h-80 w-full lg:h-full"
             loading="lazy"

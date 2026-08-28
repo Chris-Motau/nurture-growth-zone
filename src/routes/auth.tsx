@@ -23,16 +23,16 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in or register — Kaelo LMS" },
+      { title: "Sign in or register — Hamonate LMS" },
       {
         name: "description",
         content:
-          "Trainees can register with their facilitator-listed email or sign in to Kaelo LMS to access courses, attendance and submissions.",
+          "Trainees can register with their facilitator-listed email or sign in to Hamonate LMS to access courses, attendance and submissions.",
       },
-      { property: "og:title", content: "Trainee sign in — Kaelo LMS" },
+      { property: "og:title", content: "Trainee sign in — Hamonate LMS" },
       {
         property: "og:description",
-        content: "Register or log in to your Kaelo LMS trainee account.",
+        content: "Register or log in to your Hamonate LMS trainee account.",
       },
     ],
   }),
@@ -93,7 +93,14 @@ function AuthPage() {
         </CardHeader>
       </Card>
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Are you a facilitator?{" "}
+        <Link to="/facilitator-login" className="font-medium text-primary underline hover:text-foreground">
+          Facilitator sign in
+        </Link>
+      </p>
+
+      <p className="mt-3 text-center text-xs text-muted-foreground">
         By continuing you agree to our{" "}
         <Link to="/terms" className="underline hover:text-foreground">
           Terms &amp; Conditions
@@ -187,7 +194,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void | Promise<void> }) {
     }
 
     setRememberMe(remember);
-    toast.success("Signed in", { description: "Welcome back to Kaelo LMS." });
+    toast.success("Signed in", { description: "Welcome back to Hamonate LMS." });
     await onSuccess();
   };
 
@@ -366,7 +373,7 @@ function RegisterForm({
       }
     }
 
-    toast.success("Welcome to Kaelo LMS", { description: "Your trainee account is ready." });
+    toast.success("Welcome to Hamonate LMS", { description: "Your trainee account is ready." });
     await onSuccess();
   };
 

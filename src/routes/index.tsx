@@ -17,13 +17,13 @@ import heroImage from "@/assets/hero-learners.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Kaelo LMS — Learning Management for Facilitators & Trainees" },
+      { title: "Hamonate LMS — Learning Management for Facilitators & Trainees" },
       {
         name: "description",
         content:
-          "Kaelo LMS brings courses, lessons, modules, attendance and task submissions together for management, facilitators and trainees.",
+          "Hamonate LMS brings courses, lessons, modules, attendance and task submissions together for management, facilitators and trainees.",
       },
-      { property: "og:title", content: "Kaelo LMS — Learning Management System" },
+      { property: "og:title", content: "Hamonate LMS — Learning Management System" },
       {
         property: "og:description",
         content:
@@ -107,7 +107,7 @@ function Index() {
               Everything your training programme needs, in one place.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-primary-foreground/80">
-              Kaelo LMS is where management publishes courses, facilitators run attendance and
+              Hamonate LMS is where management publishes courses, facilitators run attendance and
               review work, and trainees learn module by module — tracking progress and submitting
               tasks as they go.
             </p>
@@ -129,7 +129,7 @@ function Index() {
           <div className="relative">
             <img
               src={heroImage}
-              alt="Trainees collaborating on laptops during a Kaelo LMS training session"
+              alt="Trainees collaborating on laptops during a Hamonate LMS training session"
               width={1600}
               height={1000}
               className="shadow-lift w-full rounded-2xl object-cover"
@@ -153,9 +153,9 @@ function Index() {
       {/* What the system is about */}
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 md:py-20">
         <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold sm:text-4xl">What is Kaelo LMS?</h2>
+          <h2 className="text-3xl font-bold sm:text-4xl">What is Hamonate LMS?</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            Kaelo LMS digitises the full training cycle. Management builds the curriculum — courses
+            Hamonate LMS digitises the full training cycle. Management builds the curriculum — courses
             with start and end dates, lessons, modules and optional tasks. Facilitators register
             their trainees, create meetings, capture attendance and review submissions. Trainees
             follow the content in markdown, complete modules to advance their progress, and submit

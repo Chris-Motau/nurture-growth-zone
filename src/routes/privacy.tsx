@@ -3,13 +3,13 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — Kaelo LMS" },
+      { title: "Privacy Policy — Hamonate LMS" },
       {
         name: "description",
         content:
-          "How Kaelo LMS collects, uses, stores and protects personal information of trainees, facilitators and management.",
+          "How Hamonate LMS collects, uses, stores and protects personal information of trainees, facilitators and management.",
       },
-      { property: "og:title", content: "Privacy Policy — Kaelo LMS" },
+      { property: "og:title", content: "Privacy Policy — Hamonate LMS" },
       {
         property: "og:description",
         content: "Our approach to personal information, data storage and your rights.",
@@ -42,7 +42,7 @@ const sections = [
   },
   {
     title: "6. Contact",
-    body: "Questions about this policy can be sent to hello@kaelolms.co.za.",
+    body: "Questions about this policy can be sent to hello@hamonatelms.co.za.",
   },
 ];
 

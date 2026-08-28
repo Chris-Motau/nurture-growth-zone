@@ -10,13 +10,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const Route = createFileRoute("/_authenticated/facilitator")({
   head: () => ({
     meta: [
-      { title: "Facilitator workspace — Kaelo LMS" },
+      { title: "Facilitator workspace — Hamonate LMS" },
       {
         name: "description",
-        content: "Facilitator workspace for Kaelo LMS: trainee invites, cohorts and upcoming attendance tools.",
+        content: "Facilitator workspace for Hamonate LMS: trainee invites, cohorts and upcoming attendance tools.",
       },
-      { property: "og:title", content: "Facilitator workspace — Kaelo LMS" },
-      { property: "og:description", content: "Manage your Kaelo LMS trainees and cohorts." },
+      { property: "og:title", content: "Facilitator workspace — Hamonate LMS" },
+      { property: "og:description", content: "Manage your Hamonate LMS trainees and cohorts." },
     ],
   }),
   component: FacilitatorPage,
