@@ -93,7 +93,14 @@ function AuthPage() {
         </CardHeader>
       </Card>
 
-      <p className="mt-6 text-center text-xs text-muted-foreground">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Are you a facilitator?{" "}
+        <Link to="/facilitator-login" className="font-medium text-primary underline hover:text-foreground">
+          Facilitator sign in
+        </Link>
+      </p>
+
+      <p className="mt-3 text-center text-xs text-muted-foreground">
         By continuing you agree to our{" "}
         <Link to="/terms" className="underline hover:text-foreground">
           Terms &amp; Conditions
