@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { GraduationCap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import logoAsset from "@/assets/hamonate-logo.jpg.asset.json";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSession } from "@/hooks/use-session";
@@ -33,9 +34,13 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="surface-hero flex h-9 w-9 items-center justify-center rounded-xl text-primary-foreground">
-            <GraduationCap className="h-5 w-5" aria-hidden="true" />
-          </span>
+          <img
+            src={logoAsset.url}
+            alt="Hamonate Learning Management System logo"
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-lg object-contain"
+          />
           <span className="font-display text-lg font-bold tracking-tight">Hamonate LMS</span>
         </Link>
 
@@ -64,9 +69,14 @@ export function SiteHeader() {
               </Button>
             </>
           ) : (
-            <Button asChild size="sm">
-              <Link to="/auth">Sign in</Link>
-            </Button>
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/facilitator-login">Facilitator sign in</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link to="/auth">Sign in</Link>
+              </Button>
+            </>
           )}
         </div>
 
@@ -110,11 +120,18 @@ export function SiteHeader() {
               </Button>
             </>
           ) : (
-            <Button asChild size="sm" className="mt-1">
-              <Link to="/auth" onClick={() => setOpen(false)}>
-                Sign in
-              </Link>
-            </Button>
+            <>
+              <Button asChild size="sm" className="mt-1">
+                <Link to="/auth" onClick={() => setOpen(false)}>
+                  Sign in
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm" className="mt-1">
+                <Link to="/facilitator-login" onClick={() => setOpen(false)}>
+                  Facilitator sign in
+                </Link>
+              </Button>
+            </>
           )}
         </nav>
       </div>

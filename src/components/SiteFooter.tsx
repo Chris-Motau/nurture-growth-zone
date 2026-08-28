@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { GraduationCap, Github, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
+import logoAsset from "@/assets/hamonate-logo.jpg.asset.json";
+import { Github, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -7,9 +8,13 @@ export function SiteFooter() {
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
-            <span className="surface-hero flex h-9 w-9 items-center justify-center rounded-xl text-primary-foreground">
-              <GraduationCap className="h-5 w-5" aria-hidden="true" />
-            </span>
+            <img
+              src={logoAsset.url}
+              alt="Hamonate Learning Management System logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-lg object-contain"
+            />
             <span className="font-display text-lg font-bold">Hamonate LMS</span>
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -51,6 +56,11 @@ export function SiteFooter() {
             <li>
               <Link to="/location" className="hover:text-foreground">
                 Company location
+              </Link>
+            </li>
+            <li>
+              <Link to="/facilitator-login" className="hover:text-foreground">
+                Facilitator sign in
               </Link>
             </li>
             <li>
