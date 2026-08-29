@@ -29,7 +29,6 @@ export function SiteHeader() {
     void navigate({ to: "/auth", replace: true });
   }
 
-
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6">
@@ -61,6 +60,9 @@ export function SiteHeader() {
         <div className="hidden items-center gap-2 md:flex">
           {loading ? null : session ? (
             <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/courses">Courses</Link>
+              </Button>
               <Button asChild variant="ghost" size="sm">
                 <Link to="/dashboard">My dashboard</Link>
               </Button>
@@ -108,6 +110,13 @@ export function SiteHeader() {
           ))}
           {loading ? null : session ? (
             <>
+              <Link
+                to="/courses"
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                Courses
+              </Link>
               <Link
                 to="/dashboard"
                 onClick={() => setOpen(false)}

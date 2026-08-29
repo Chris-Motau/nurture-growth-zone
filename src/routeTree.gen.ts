@@ -20,6 +20,13 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedFacilitatorRouteImport } from './routes/_authenticated/facilitator'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedCoursesIndexRouteImport } from './routes/_authenticated/courses/index'
+import { Route as AuthenticatedCoursesCourseIdRouteImport } from './routes/_authenticated/courses/$courseId'
+import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
+import { Route as AuthenticatedTasksTaskIdRouteImport } from './routes/_authenticated/tasks/$taskId'
+import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId'
+import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +83,46 @@ const AuthenticatedFacilitatorRoute =
     path: '/facilitator',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCoursesIndexRoute =
+  AuthenticatedCoursesIndexRouteImport.update({
+    id: '/courses/',
+    path: '/courses/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCoursesCourseIdRoute =
+  AuthenticatedCoursesCourseIdRouteImport.update({
+    id: '/courses/$courseId',
+    path: '/courses/$courseId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexRouteImport.update({
+  id: '/tasks/',
+  path: '/tasks/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTasksTaskIdRoute =
+  AuthenticatedTasksTaskIdRouteImport.update({
+    id: '/tasks/$taskId',
+    path: '/tasks/$taskId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCoursesCourseIdLessonsLessonIdRoute =
+  AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport.update({
+    id: '/lessons/$lessonId',
+    path: '/lessons/$lessonId',
+    getParentRoute: () => AuthenticatedCoursesCourseIdRoute,
+  } as any)
+const AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute =
+  AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRouteImport.update({
+    id: '/modules/$moduleId',
+    path: '/modules/$moduleId',
+    getParentRoute: () => AuthenticatedCoursesCourseIdLessonsLessonIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -88,6 +135,13 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
+  '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/courses/': typeof AuthenticatedCoursesIndexRoute
+  '/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
+  '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -100,6 +154,13 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
+  '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/courses': typeof AuthenticatedCoursesIndexRoute
+  '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
+  '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -114,6 +175,13 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/facilitator': typeof AuthenticatedFacilitatorRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
+  '/_authenticated/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/_authenticated/courses/': typeof AuthenticatedCoursesIndexRoute
+  '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/_authenticated/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
+  '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -128,6 +196,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/dashboard'
     | '/facilitator'
+    | '/profile'
+    | '/courses/$courseId'
+    | '/tasks/$taskId'
+    | '/courses/'
+    | '/tasks/'
+    | '/courses/$courseId/lessons/$lessonId'
+    | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -140,6 +215,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/dashboard'
     | '/facilitator'
+    | '/profile'
+    | '/courses/$courseId'
+    | '/tasks/$taskId'
+    | '/courses'
+    | '/tasks'
+    | '/courses/$courseId/lessons/$lessonId'
+    | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   id:
     | '__root__'
     | '/'
@@ -153,6 +235,13 @@ export interface FileRouteTypes {
     | '/terms'
     | '/_authenticated/dashboard'
     | '/_authenticated/facilitator'
+    | '/_authenticated/profile'
+    | '/_authenticated/courses/$courseId'
+    | '/_authenticated/tasks/$taskId'
+    | '/_authenticated/courses/'
+    | '/_authenticated/tasks/'
+    | '/_authenticated/courses/$courseId/lessons/$lessonId'
+    | '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,17 +335,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFacilitatorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/courses/': {
+      id: '/_authenticated/courses/'
+      path: '/courses'
+      fullPath: '/courses/'
+      preLoaderRoute: typeof AuthenticatedCoursesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/courses/$courseId': {
+      id: '/_authenticated/courses/$courseId'
+      path: '/courses/$courseId'
+      fullPath: '/courses/$courseId'
+      preLoaderRoute: typeof AuthenticatedCoursesCourseIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tasks/': {
+      id: '/_authenticated/tasks/'
+      path: '/tasks'
+      fullPath: '/tasks/'
+      preLoaderRoute: typeof AuthenticatedTasksIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tasks/$taskId': {
+      id: '/_authenticated/tasks/$taskId'
+      path: '/tasks/$taskId'
+      fullPath: '/tasks/$taskId'
+      preLoaderRoute: typeof AuthenticatedTasksTaskIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/courses/$courseId/lessons/$lessonId': {
+      id: '/_authenticated/courses/$courseId/lessons/$lessonId'
+      path: '/lessons/$lessonId'
+      fullPath: '/courses/$courseId/lessons/$lessonId'
+      preLoaderRoute: typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport
+      parentRoute: typeof AuthenticatedCoursesCourseIdRoute
+    }
+    '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId': {
+      id: '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
+      path: '/modules/$moduleId'
+      fullPath: '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
+      preLoaderRoute: typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRouteImport
+      parentRoute: typeof AuthenticatedCoursesCourseIdLessonsLessonIdRoute
+    }
   }
 }
+
+interface AuthenticatedCoursesCourseIdLessonsLessonIdRouteChildren {
+  AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute: typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
+}
+
+const AuthenticatedCoursesCourseIdLessonsLessonIdRouteChildren: AuthenticatedCoursesCourseIdLessonsLessonIdRouteChildren =
+  {
+    AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute:
+      AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute,
+  }
+
+const AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren =
+  AuthenticatedCoursesCourseIdLessonsLessonIdRoute._addFileChildren(
+    AuthenticatedCoursesCourseIdLessonsLessonIdRouteChildren,
+  )
+
+interface AuthenticatedCoursesCourseIdRouteChildren {
+  AuthenticatedCoursesCourseIdLessonsLessonIdRoute: typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
+}
+
+const AuthenticatedCoursesCourseIdRouteChildren: AuthenticatedCoursesCourseIdRouteChildren =
+  {
+    AuthenticatedCoursesCourseIdLessonsLessonIdRoute:
+      AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren,
+  }
+
+const AuthenticatedCoursesCourseIdRouteWithChildren =
+  AuthenticatedCoursesCourseIdRoute._addFileChildren(
+    AuthenticatedCoursesCourseIdRouteChildren,
+  )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedFacilitatorRoute: typeof AuthenticatedFacilitatorRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedCoursesCourseIdRoute: typeof AuthenticatedCoursesCourseIdRouteWithChildren
+  AuthenticatedTasksTaskIdRoute: typeof AuthenticatedTasksTaskIdRoute
+  AuthenticatedCoursesIndexRoute: typeof AuthenticatedCoursesIndexRoute
+  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedFacilitatorRoute: AuthenticatedFacilitatorRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedCoursesCourseIdRoute:
+    AuthenticatedCoursesCourseIdRouteWithChildren,
+  AuthenticatedTasksTaskIdRoute: AuthenticatedTasksTaskIdRoute,
+  AuthenticatedCoursesIndexRoute: AuthenticatedCoursesIndexRoute,
+  AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
