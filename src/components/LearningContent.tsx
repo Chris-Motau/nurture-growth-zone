@@ -1,5 +1,3 @@
-import { Link } from "@tanstack/react-router";
-import { CheckCircle2, Circle, Clock } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 export function MarkdownContent({ content }: { content: string }) {
@@ -45,39 +43,3 @@ export function CompletionBar({ completed, total }: { completed: number; total: 
   );
 }
 
-export function ModuleList({
-  modules,
-  completedIds,
-}: {
-  modules: { id: string; topic: string; duration_minutes: number; position: number }[];
-  completedIds: Set<string>;
-}) {
-  return (
-    <ul className="divide-y rounded-xl border bg-card">
-      {modules.map((module) => (
-        <li key={module.id}>
-          <Link
-            to="/courses/$courseId/lessons/$lessonId/modules/$moduleId"
-            params={{ courseId: "", lessonId: "", moduleId: module.id }}
-            className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-secondary"
-          >
-            <span className="text-primary">
-              {completedIds.has(module.id) ? (
-                <CheckCircle2 className="h-5 w-5" />
-              ) : (
-                <Circle className="h-5 w-5" />
-              )}
-            </span>
-            <span className="flex-1 font-medium">
-              {module.position}. {module.topic}
-            </span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <Clock className="h-3.5 w-3.5" />
-              {module.duration_minutes} min
-            </span>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-}
