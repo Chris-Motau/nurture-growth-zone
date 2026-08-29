@@ -68,6 +68,7 @@ function CoursePage() {
         <h2 className="font-display text-2xl font-bold">Your progress</h2>
         <div className="mt-3 max-w-md">
           <CompletionBar completed={data.done} total={data.total} />
+          {data.total > 0 && data.done === data.total && <p className="mt-2 text-sm font-semibold text-primary">Course complete</p>}
         </div>
       </section>
       <section className="mt-9">

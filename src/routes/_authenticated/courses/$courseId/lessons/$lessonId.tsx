@@ -59,6 +59,9 @@ function LessonPage() {
       </Card>
       <section className="mt-8">
         <h2 className="font-display text-2xl font-bold">Modules</h2>
+        {data.modules.length > 0 && data.modules.every((module) => data.completed.has(module.id)) && (
+          <p className="mt-2 text-sm font-semibold text-primary">Lesson complete</p>
+        )}
         <div className="mt-4 space-y-3">
           {data.modules.map((module) => (
             <Link

@@ -13,6 +13,9 @@ function ContentPage() {
   const client = useQueryClient();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [facilitatorName, setFacilitatorName] = useState("");
   const { data } = useQuery({
     queryKey: ["admin-courses"],
     queryFn: async () => {
@@ -25,12 +28,13 @@ function ContentPage() {
     mutationFn: async () => {
       const { error } = await supabase
         .from("courses")
-        .insert({ title, description, position: (data?.length ?? 0) + 1 });
+        .insert({ title, description, start_date: startDate || null, end_date: endDate || null, facilitator_name: facilitatorName, position: (data?.length ?? 0) + 1 });
       if (error) throw error;
     },
     onSuccess: () => {
       setTitle("");
       setDescription("");
+      setStartDate(""); setEndDate(""); setFacilitatorName("");
       void client.invalidateQueries({ queryKey: ["admin-courses"] });
       toast.success("Course created");
     },
@@ -60,7 +64,12 @@ function ContentPage() {
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Short course description"
           />
-          <Button disabled={!title || create.isPending} onClick={() => create.mutate()}>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} aria-label="Course start date" />
+            <Input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} aria-label="Course end date" />
+            <Input value={facilitatorName} onChange={(event) => setFacilitatorName(event.target.value)} placeholder="Facilitator name" />
+          </div>
+          <Button disabled={!title || !startDate || !endDate || !facilitatorName || create.isPending} onClick={() => create.mutate()}>
             Create course
           </Button>
         </CardContent>

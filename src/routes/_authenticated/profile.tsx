@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ function ProfilePage() {
   const client = useQueryClient();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -55,6 +56,20 @@ function ProfilePage() {
     toast.success("Signed out");
     void navigate({ to: "/auth", replace: true });
   }
+  async function changeAvatar(file: File | null) {
+    if (!file) return;
+    if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) return toast.error("Choose an image under 5MB.");
+    const { data: user } = await supabase.auth.getUser();
+    if (!user.user) return toast.error("Please sign in again.");
+    const extension = file.name.split(".").pop() ?? "jpg";
+    const path = `${user.user.id}/avatar.${extension}`;
+    const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+    if (error) return toast.error(error.message);
+    const { error: profileError } = await supabase.from("profiles").update({ avatar_url: path }).eq("id", user.user.id);
+    if (profileError) return toast.error(profileError.message);
+    toast.success("Profile picture updated");
+    await client.invalidateQueries({ queryKey: ["profile"] });
+  }
   return (
     <main className="mx-auto max-w-xl px-4 py-12 sm:px-6">
       <h1 className="font-display text-3xl font-bold">Your profile</h1>
@@ -67,6 +82,10 @@ function ProfilePage() {
           <div>
             <label className="text-sm font-medium">Email</label>
             <p className="mt-1 text-sm text-muted-foreground">{data?.email}</p>
+          </div>
+          <div>
+            <input ref={fileRef} className="hidden" type="file" accept="image/*" onChange={(e) => void changeAvatar(e.target.files?.[0] ?? null)} />
+            <Button type="button" variant="outline" onClick={() => fileRef.current?.click()}>Change profile picture</Button>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="text-sm font-medium">

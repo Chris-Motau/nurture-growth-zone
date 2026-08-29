@@ -60,6 +60,9 @@ function RenameButton({ value, onSave }: { value: string; onSave: (value: string
     </Button>
   );
 }
+function DetailsButton({ onEdit }: { onEdit: () => void }) {
+  return <Button variant="outline" size="sm" onClick={onEdit}>Details</Button>;
+}
 function CourseEditor() {
   const { courseId } = Route.useParams();
   const client = useQueryClient();
@@ -129,6 +132,11 @@ function CourseEditor() {
         }
       });
   };
+  const update = (table: "courses" | "lessons" | "modules" | "tasks", id: string, values: Record<string, unknown>) => {
+    void (supabase.from(table) as any).update(values).eq("id", id).then(({ error }: { error: Error | null }) => {
+      if (error) toast.error(error.message); else { toast.success("Updated"); refresh(); }
+    });
+  };
   if (!data) return <p className="text-muted-foreground">Loading course…</p>;
   return (
     <main>
@@ -145,6 +153,14 @@ function CourseEditor() {
             value={data.course.title}
             onSave={(value) => rename("courses", courseId, value)}
           />
+          <DetailsButton onEdit={() => {
+            const description = window.prompt("Course description", data.course.description);
+            if (description === null) return;
+            const start_date = window.prompt("Start date (YYYY-MM-DD)", data.course.start_date ?? "");
+            const end_date = window.prompt("End date (YYYY-MM-DD)", data.course.end_date ?? "");
+            const facilitator_name = window.prompt("Facilitator name", data.course.facilitator_name);
+            update("courses", courseId, { description, start_date: start_date || null, end_date: end_date || null, facilitator_name: facilitator_name || "" });
+          }} />
           <DeleteButton label="course" onDelete={() => remove("courses", courseId)} />
         </div>
       </div>
@@ -178,6 +194,7 @@ function CourseEditor() {
             remove={remove}
             refresh={refresh}
             rename={rename}
+            update={update}
           />
         ))}
       </div>
@@ -191,6 +208,7 @@ function LessonEditor({
   remove,
   refresh,
   rename,
+  update,
 }: {
   lesson: { id: string; topic: string };
   modules: { id: string; topic: string }[];
@@ -198,6 +216,7 @@ function LessonEditor({
   remove: (table: "courses" | "lessons" | "modules" | "tasks", id: string) => void;
   refresh: () => void;
   rename: (table: "courses" | "lessons" | "modules" | "tasks", id: string, value: string) => void;
+  update: (table: "courses" | "lessons" | "modules" | "tasks", id: string, values: Record<string, unknown>) => void;
 }) {
   const [moduleTopic, setModuleTopic] = useState("");
   const [taskTopic, setTaskTopic] = useState("");
@@ -214,6 +233,14 @@ function LessonEditor({
       else setTaskTopic("");
     }
   };
+  const uploadDocument = async (moduleId: string, file: File | null) => {
+    if (!file) return;
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+    const path = `${moduleId}/${Date.now()}-${safeName}`;
+    const { error: uploadError } = await supabase.storage.from("module-documents").upload(path, file);
+    if (uploadError) return toast.error(uploadError.message);
+    update("modules", moduleId, { document_path: path });
+  };
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between space-y-0">
@@ -223,6 +250,13 @@ function LessonEditor({
             value={lesson.topic}
             onSave={(value) => rename("lessons", lesson.id, value)}
           />
+          <DetailsButton onEdit={() => {
+            const overview_md = window.prompt("Lesson Markdown overview", (lesson as any).overview_md ?? "");
+            if (overview_md === null) return;
+            const duration_minutes = window.prompt("Lesson duration (minutes)", String((lesson as any).duration_minutes ?? 0));
+            update("lessons", lesson.id, { overview_md, duration_minutes: Number(duration_minutes) || 0 });
+          }} />
+          <Button variant="outline" size="sm" onClick={() => update("lessons", lesson.id, { is_hidden: !(lesson as any).is_hidden })}>{(lesson as any).is_hidden ? "Show" : "Hide"}</Button>
           <DeleteButton label="lesson" onDelete={() => remove("lessons", lesson.id)} />
         </div>
       </CardHeader>
@@ -237,6 +271,17 @@ function LessonEditor({
                   value={module.topic}
                   onSave={(value) => rename("modules", module.id, value)}
                 />
+                <DetailsButton onEdit={() => {
+                  const content_md = window.prompt("Module Markdown content", (module as any).content_md ?? "");
+                  if (content_md === null) return;
+                  const video_url = window.prompt("Video URL (optional)", (module as any).video_url ?? "");
+                  const duration_minutes = window.prompt("Module duration (minutes)", String((module as any).duration_minutes ?? 0));
+                  update("modules", module.id, { content_md, video_url: video_url || null, duration_minutes: Number(duration_minutes) || 0 });
+                }} />
+                <Button variant="outline" size="sm" onClick={() => update("modules", module.id, { is_hidden: !(module as any).is_hidden })}>{(module as any).is_hidden ? "Show" : "Hide"}</Button>
+                <label className="inline-flex cursor-pointer items-center rounded-md border px-2 text-xs font-medium">
+                  Document<input className="hidden" type="file" onChange={(e) => void uploadDocument(module.id, e.target.files?.[0] ?? null)} />
+                </label>
                 <DeleteButton label="module" onDelete={() => remove("modules", module.id)} />
               </div>
             </div>
@@ -266,6 +311,13 @@ function LessonEditor({
                   value={task.topic}
                   onSave={(value) => rename("tasks", task.id, value)}
                 />
+                <DetailsButton onEdit={() => {
+                  const instructions_md = window.prompt("Task instructions (Markdown)", (task as any).instructions_md ?? "");
+                  if (instructions_md === null) return;
+                  const due_date = window.prompt("Due date/time (YYYY-MM-DD or ISO, optional)", (task as any).due_date ?? "");
+                  update("tasks", task.id, { instructions_md, due_date: due_date || null });
+                }} />
+                <Button variant="outline" size="sm" onClick={() => update("tasks", task.id, { is_hidden: !(task as any).is_hidden })}>{(task as any).is_hidden ? "Show" : "Hide"}</Button>
                 <DeleteButton label="task" onDelete={() => remove("tasks", task.id)} />
               </div>
             </div>

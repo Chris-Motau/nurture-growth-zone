@@ -1,6 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { LogOut, ShieldAlert, Users } from "lucide-react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -25,6 +27,8 @@ export const Route = createFileRoute("/_authenticated/facilitator")({
 function FacilitatorPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [email, setEmail] = useState("");
+  const [cohort, setCohort] = useState("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["facilitator-workspace"],
@@ -50,6 +54,20 @@ function FacilitatorPage() {
     await supabase.auth.signOut();
     toast.success("Signed out");
     void navigate({ to: "/facilitator-login", replace: true });
+  }
+
+  async function addInvite() {
+    const normalised = email.trim().toLowerCase();
+    if (!/^\S+@\S+\.\S+$/.test(normalised)) return toast.error("Enter a valid trainee email");
+    const { error } = await supabase.from("trainee_invites").insert({
+      email: normalised,
+      cohort: cohort.trim() || null,
+      facilitator_name: data?.profile ? `${data.profile.first_name} ${data.profile.last_name}`.trim() : null,
+    });
+    if (error) return toast.error(error.message.includes("duplicate") ? "That trainee email is already registered." : error.message);
+    setEmail(""); setCohort("");
+    toast.success("Trainee email registered");
+    await queryClient.invalidateQueries({ queryKey: ["facilitator-workspace"] });
   }
 
   if (isLoading) {
@@ -108,6 +126,11 @@ function FacilitatorPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="mb-5 grid gap-2 rounded-lg border p-4 sm:grid-cols-[1fr_1fr_auto]">
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="trainee@email.com" />
+            <Input value={cohort} onChange={(e) => setCohort(e.target.value)} placeholder="Cohort (optional)" />
+            <Button onClick={() => void addInvite()} disabled={!email}>Register trainee</Button>
+          </div>
           {data.invites.length === 0 ? (
             <p className="text-sm text-muted-foreground">No trainee emails registered yet.</p>
           ) : (

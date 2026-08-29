@@ -21,6 +21,7 @@ export type Database = {
           end_date: string | null
           facilitator_name: string
           id: string
+          is_hidden: boolean
           position: number
           start_date: string | null
           title: string
@@ -32,6 +33,7 @@ export type Database = {
           end_date?: string | null
           facilitator_name?: string
           id?: string
+          is_hidden?: boolean
           position?: number
           start_date?: string | null
           title: string
@@ -43,6 +45,7 @@ export type Database = {
           end_date?: string | null
           facilitator_name?: string
           id?: string
+          is_hidden?: boolean
           position?: number
           start_date?: string | null
           title?: string
@@ -87,6 +90,7 @@ export type Database = {
           duration_minutes: number
           id: string
           lesson_number: number
+          is_hidden: boolean
           overview_md: string
           topic: string
           updated_at: string
@@ -97,6 +101,7 @@ export type Database = {
           duration_minutes?: number
           id?: string
           lesson_number?: number
+          is_hidden?: boolean
           overview_md?: string
           topic: string
           updated_at?: string
@@ -107,6 +112,7 @@ export type Database = {
           duration_minutes?: number
           id?: string
           lesson_number?: number
+          is_hidden?: boolean
           overview_md?: string
           topic?: string
           updated_at?: string
@@ -226,7 +232,9 @@ export type Database = {
           content_md: string
           created_at: string
           duration_minutes: number
+          document_path: string | null
           id: string
+          is_hidden: boolean
           lesson_id: string
           position: number
           topic: string
@@ -237,7 +245,9 @@ export type Database = {
           content_md?: string
           created_at?: string
           duration_minutes?: number
+          document_path?: string | null
           id?: string
+          is_hidden?: boolean
           lesson_id: string
           position?: number
           topic: string
@@ -248,7 +258,9 @@ export type Database = {
           content_md?: string
           created_at?: string
           duration_minutes?: number
+          document_path?: string | null
           id?: string
+          is_hidden?: boolean
           lesson_id?: string
           position?: number
           topic?: string
@@ -342,6 +354,7 @@ export type Database = {
           due_date: string | null
           id: string
           instructions_md: string
+          is_hidden: boolean
           lesson_id: string
           topic: string
           updated_at: string
@@ -350,6 +363,7 @@ export type Database = {
           created_at?: string
           due_date?: string | null
           id?: string
+          is_hidden?: boolean
           instructions_md?: string
           lesson_id: string
           topic: string
@@ -360,6 +374,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           instructions_md?: string
+          is_hidden?: boolean
           lesson_id?: string
           topic?: string
           updated_at?: string

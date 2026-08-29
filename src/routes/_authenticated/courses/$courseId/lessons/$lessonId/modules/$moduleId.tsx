@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { CheckCircle2, PlayCircle } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +14,7 @@ export const Route = createFileRoute(
 function ModulePage() {
   const { courseId, lessonId, moduleId } = Route.useParams();
   const client = useQueryClient();
+  const [documentUrl, setDocumentUrl] = useState<string | null>(null);
   const { data, isLoading } = useQuery({
     queryKey: ["module", moduleId],
     queryFn: async () => {
@@ -51,6 +53,11 @@ function ModulePage() {
     },
     onError: (error) => toast.error(error.message),
   });
+  useEffect(() => {
+    const path = (data?.module as any)?.document_path as string | null | undefined;
+    if (!path) { setDocumentUrl(null); return; }
+    void supabase.storage.from("module-documents").createSignedUrl(path, 3600).then(({ data: signed }) => setDocumentUrl(signed?.signedUrl ?? null));
+  }, [data?.module]);
   if (isLoading)
     return (
       <div className="mx-auto max-w-3xl px-4 py-12 text-muted-foreground">Loading module…</div>
@@ -85,6 +92,7 @@ function ModulePage() {
           <MarkdownContent content={data.module.content_md} />
         </CardContent>
       </Card>
+      {documentUrl && <a href={documentUrl} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm font-medium text-primary underline">Open module document</a>}
       <div className="mt-7">
         <Button
           disabled={data.complete || markComplete.isPending}
