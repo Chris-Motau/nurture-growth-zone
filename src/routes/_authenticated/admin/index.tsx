@@ -48,9 +48,24 @@ function AdminOverview() {
   });
 
   const cards = [
-    { to: "/admin/trainees", label: "Registered trainees", value: data?.trainees ?? 0, icon: Users },
-    { to: "/admin/submissions", label: "Task submissions", value: data?.submissions ?? 0, icon: GitBranch },
-    { to: "/admin/attendance", label: "Meetings created", value: data?.meetings ?? 0, icon: CalendarCheck },
+    {
+      to: "/admin/trainees",
+      label: "Registered trainees",
+      value: data?.trainees ?? 0,
+      icon: Users,
+    },
+    {
+      to: "/admin/submissions",
+      label: "Task submissions",
+      value: data?.submissions ?? 0,
+      icon: GitBranch,
+    },
+    {
+      to: "/admin/attendance",
+      label: "Meetings created",
+      value: data?.meetings ?? 0,
+      icon: CalendarCheck,
+    },
     { to: "/admin/content", label: "Courses published", value: data?.courses ?? 0, icon: BookOpen },
   ] as const;
 

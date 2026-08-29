@@ -18,7 +18,10 @@ export const Route = createFileRoute("/_authenticated/admin/trainees/")({
           "View every trainee registered on Hamonate LMS with attendance, submission and performance status.",
       },
       { property: "og:title", content: "Registered trainees — Hamonate LMS admin" },
-      { property: "og:description", content: "Attendance, submissions and performance per trainee." },
+      {
+        property: "og:description",
+        content: "Attendance, submissions and performance per trainee.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -78,7 +81,8 @@ function TraineesPage() {
                     </div>
                     <div className="flex flex-wrap gap-x-6 gap-y-1 text-muted-foreground">
                       <span>
-                        Attendance <strong className="text-foreground">{row.attendance.rate}%</strong>
+                        Attendance{" "}
+                        <strong className="text-foreground">{row.attendance.rate}%</strong>
                       </span>
                       <span>
                         Submissions{" "}

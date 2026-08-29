@@ -61,6 +61,9 @@ export function SiteHeader() {
           {loading ? null : session ? (
             <>
               <Button asChild variant="ghost" size="sm">
+                <Link to="/admin">Admin</Link>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
                 <Link to="/courses">Courses</Link>
               </Button>
               <Button asChild variant="ghost" size="sm">
@@ -110,6 +113,13 @@ export function SiteHeader() {
           ))}
           {loading ? null : session ? (
             <>
+              <Link
+                to="/admin"
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              >
+                Admin
+              </Link>
               <Link
                 to="/courses"
                 onClick={() => setOpen(false)}

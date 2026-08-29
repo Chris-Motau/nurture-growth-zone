@@ -23,11 +23,19 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedFacilitatorRouteImport } from './routes/_authenticated/facilitator'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin/profile'
 import { Route as AuthenticatedCoursesIndexRouteImport } from './routes/_authenticated/courses/index'
 import { Route as AuthenticatedCoursesCourseIdRouteImport } from './routes/_authenticated/courses/$courseId'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedTasksTaskIdRouteImport } from './routes/_authenticated/tasks/$taskId'
+import { Route as AuthenticatedAdminAttendanceIndexRouteImport } from './routes/_authenticated/admin/attendance/index'
+import { Route as AuthenticatedAdminAttendanceMeetingIdRouteImport } from './routes/_authenticated/admin/attendance/$meetingId'
+import { Route as AuthenticatedAdminContentIndexRouteImport } from './routes/_authenticated/admin/content/index'
+import { Route as AuthenticatedAdminContentCourseIdRouteImport } from './routes/_authenticated/admin/content/$courseId'
+import { Route as AuthenticatedAdminSubmissionsIndexRouteImport } from './routes/_authenticated/admin/submissions/index'
+import { Route as AuthenticatedAdminSubmissionsTraineeIdRouteImport } from './routes/_authenticated/admin/submissions/$traineeId'
 import { Route as AuthenticatedAdminTraineesIndexRouteImport } from './routes/_authenticated/admin/trainees/index'
+import { Route as AuthenticatedAdminTraineesTraineeIdRouteImport } from './routes/_authenticated/admin/trainees/$traineeId'
 import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId'
 import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
 
@@ -101,6 +109,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
+const AuthenticatedAdminProfileRoute =
+  AuthenticatedAdminProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedCoursesIndexRoute =
   AuthenticatedCoursesIndexRouteImport.update({
     id: '/courses/',
@@ -124,10 +138,52 @@ const AuthenticatedTasksTaskIdRoute =
     path: '/tasks/$taskId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminAttendanceIndexRoute =
+  AuthenticatedAdminAttendanceIndexRouteImport.update({
+    id: '/attendance/',
+    path: '/attendance/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminAttendanceMeetingIdRoute =
+  AuthenticatedAdminAttendanceMeetingIdRouteImport.update({
+    id: '/attendance/$meetingId',
+    path: '/attendance/$meetingId',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminContentIndexRoute =
+  AuthenticatedAdminContentIndexRouteImport.update({
+    id: '/content/',
+    path: '/content/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminContentCourseIdRoute =
+  AuthenticatedAdminContentCourseIdRouteImport.update({
+    id: '/content/$courseId',
+    path: '/content/$courseId',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminSubmissionsIndexRoute =
+  AuthenticatedAdminSubmissionsIndexRouteImport.update({
+    id: '/submissions/',
+    path: '/submissions/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminSubmissionsTraineeIdRoute =
+  AuthenticatedAdminSubmissionsTraineeIdRouteImport.update({
+    id: '/submissions/$traineeId',
+    path: '/submissions/$traineeId',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedAdminTraineesIndexRoute =
   AuthenticatedAdminTraineesIndexRouteImport.update({
     id: '/trainees/',
     path: '/trainees/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminTraineesTraineeIdRoute =
+  AuthenticatedAdminTraineesTraineeIdRouteImport.update({
+    id: '/trainees/$traineeId',
+    path: '/trainees/$traineeId',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
 const AuthenticatedCoursesCourseIdLessonsLessonIdRoute =
@@ -156,11 +212,19 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/courses/': typeof AuthenticatedCoursesIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/admin/attendance/$meetingId': typeof AuthenticatedAdminAttendanceMeetingIdRoute
+  '/admin/content/$courseId': typeof AuthenticatedAdminContentCourseIdRoute
+  '/admin/submissions/$traineeId': typeof AuthenticatedAdminSubmissionsTraineeIdRoute
+  '/admin/trainees/$traineeId': typeof AuthenticatedAdminTraineesTraineeIdRoute
+  '/admin/attendance/': typeof AuthenticatedAdminAttendanceIndexRoute
+  '/admin/content/': typeof AuthenticatedAdminContentIndexRoute
+  '/admin/submissions/': typeof AuthenticatedAdminSubmissionsIndexRoute
   '/admin/trainees/': typeof AuthenticatedAdminTraineesIndexRoute
   '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
@@ -177,11 +241,19 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/courses': typeof AuthenticatedCoursesIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/admin/attendance/$meetingId': typeof AuthenticatedAdminAttendanceMeetingIdRoute
+  '/admin/content/$courseId': typeof AuthenticatedAdminContentCourseIdRoute
+  '/admin/submissions/$traineeId': typeof AuthenticatedAdminSubmissionsTraineeIdRoute
+  '/admin/trainees/$traineeId': typeof AuthenticatedAdminTraineesTraineeIdRoute
+  '/admin/attendance': typeof AuthenticatedAdminAttendanceIndexRoute
+  '/admin/content': typeof AuthenticatedAdminContentIndexRoute
+  '/admin/submissions': typeof AuthenticatedAdminSubmissionsIndexRoute
   '/admin/trainees': typeof AuthenticatedAdminTraineesIndexRoute
   '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
@@ -201,11 +273,19 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/facilitator': typeof AuthenticatedFacilitatorRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/_authenticated/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/_authenticated/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/courses/': typeof AuthenticatedCoursesIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/_authenticated/admin/attendance/$meetingId': typeof AuthenticatedAdminAttendanceMeetingIdRoute
+  '/_authenticated/admin/content/$courseId': typeof AuthenticatedAdminContentCourseIdRoute
+  '/_authenticated/admin/submissions/$traineeId': typeof AuthenticatedAdminSubmissionsTraineeIdRoute
+  '/_authenticated/admin/trainees/$traineeId': typeof AuthenticatedAdminTraineesTraineeIdRoute
+  '/_authenticated/admin/attendance/': typeof AuthenticatedAdminAttendanceIndexRoute
+  '/_authenticated/admin/content/': typeof AuthenticatedAdminContentIndexRoute
+  '/_authenticated/admin/submissions/': typeof AuthenticatedAdminSubmissionsIndexRoute
   '/_authenticated/admin/trainees/': typeof AuthenticatedAdminTraineesIndexRoute
   '/_authenticated/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
@@ -225,11 +305,19 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/facilitator'
     | '/profile'
+    | '/admin/profile'
     | '/courses/$courseId'
     | '/tasks/$taskId'
     | '/admin/'
     | '/courses/'
     | '/tasks/'
+    | '/admin/attendance/$meetingId'
+    | '/admin/content/$courseId'
+    | '/admin/submissions/$traineeId'
+    | '/admin/trainees/$traineeId'
+    | '/admin/attendance/'
+    | '/admin/content/'
+    | '/admin/submissions/'
     | '/admin/trainees/'
     | '/courses/$courseId/lessons/$lessonId'
     | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
@@ -246,11 +334,19 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/facilitator'
     | '/profile'
+    | '/admin/profile'
     | '/courses/$courseId'
     | '/tasks/$taskId'
     | '/admin'
     | '/courses'
     | '/tasks'
+    | '/admin/attendance/$meetingId'
+    | '/admin/content/$courseId'
+    | '/admin/submissions/$traineeId'
+    | '/admin/trainees/$traineeId'
+    | '/admin/attendance'
+    | '/admin/content'
+    | '/admin/submissions'
     | '/admin/trainees'
     | '/courses/$courseId/lessons/$lessonId'
     | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
@@ -269,11 +365,19 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/facilitator'
     | '/_authenticated/profile'
+    | '/_authenticated/admin/profile'
     | '/_authenticated/courses/$courseId'
     | '/_authenticated/tasks/$taskId'
     | '/_authenticated/admin/'
     | '/_authenticated/courses/'
     | '/_authenticated/tasks/'
+    | '/_authenticated/admin/attendance/$meetingId'
+    | '/_authenticated/admin/content/$courseId'
+    | '/_authenticated/admin/submissions/$traineeId'
+    | '/_authenticated/admin/trainees/$traineeId'
+    | '/_authenticated/admin/attendance/'
+    | '/_authenticated/admin/content/'
+    | '/_authenticated/admin/submissions/'
     | '/_authenticated/admin/trainees/'
     | '/_authenticated/courses/$courseId/lessons/$lessonId'
     | '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
@@ -391,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/profile': {
+      id: '/_authenticated/admin/profile'
+      path: '/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AuthenticatedAdminProfileRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/courses/': {
       id: '/_authenticated/courses/'
       path: '/courses'
@@ -419,11 +530,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksTaskIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/attendance/': {
+      id: '/_authenticated/admin/attendance/'
+      path: '/attendance'
+      fullPath: '/admin/attendance/'
+      preLoaderRoute: typeof AuthenticatedAdminAttendanceIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/attendance/$meetingId': {
+      id: '/_authenticated/admin/attendance/$meetingId'
+      path: '/attendance/$meetingId'
+      fullPath: '/admin/attendance/$meetingId'
+      preLoaderRoute: typeof AuthenticatedAdminAttendanceMeetingIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/content/': {
+      id: '/_authenticated/admin/content/'
+      path: '/content'
+      fullPath: '/admin/content/'
+      preLoaderRoute: typeof AuthenticatedAdminContentIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/content/$courseId': {
+      id: '/_authenticated/admin/content/$courseId'
+      path: '/content/$courseId'
+      fullPath: '/admin/content/$courseId'
+      preLoaderRoute: typeof AuthenticatedAdminContentCourseIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/submissions/': {
+      id: '/_authenticated/admin/submissions/'
+      path: '/submissions'
+      fullPath: '/admin/submissions/'
+      preLoaderRoute: typeof AuthenticatedAdminSubmissionsIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/submissions/$traineeId': {
+      id: '/_authenticated/admin/submissions/$traineeId'
+      path: '/submissions/$traineeId'
+      fullPath: '/admin/submissions/$traineeId'
+      preLoaderRoute: typeof AuthenticatedAdminSubmissionsTraineeIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/admin/trainees/': {
       id: '/_authenticated/admin/trainees/'
       path: '/trainees'
       fullPath: '/admin/trainees/'
       preLoaderRoute: typeof AuthenticatedAdminTraineesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/trainees/$traineeId': {
+      id: '/_authenticated/admin/trainees/$traineeId'
+      path: '/trainees/$traineeId'
+      fullPath: '/admin/trainees/$traineeId'
+      preLoaderRoute: typeof AuthenticatedAdminTraineesTraineeIdRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/_authenticated/courses/$courseId/lessons/$lessonId': {
@@ -444,13 +604,35 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminProfileRoute: typeof AuthenticatedAdminProfileRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminAttendanceMeetingIdRoute: typeof AuthenticatedAdminAttendanceMeetingIdRoute
+  AuthenticatedAdminContentCourseIdRoute: typeof AuthenticatedAdminContentCourseIdRoute
+  AuthenticatedAdminSubmissionsTraineeIdRoute: typeof AuthenticatedAdminSubmissionsTraineeIdRoute
+  AuthenticatedAdminTraineesTraineeIdRoute: typeof AuthenticatedAdminTraineesTraineeIdRoute
+  AuthenticatedAdminAttendanceIndexRoute: typeof AuthenticatedAdminAttendanceIndexRoute
+  AuthenticatedAdminContentIndexRoute: typeof AuthenticatedAdminContentIndexRoute
+  AuthenticatedAdminSubmissionsIndexRoute: typeof AuthenticatedAdminSubmissionsIndexRoute
   AuthenticatedAdminTraineesIndexRoute: typeof AuthenticatedAdminTraineesIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminProfileRoute: AuthenticatedAdminProfileRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+    AuthenticatedAdminAttendanceMeetingIdRoute:
+      AuthenticatedAdminAttendanceMeetingIdRoute,
+    AuthenticatedAdminContentCourseIdRoute:
+      AuthenticatedAdminContentCourseIdRoute,
+    AuthenticatedAdminSubmissionsTraineeIdRoute:
+      AuthenticatedAdminSubmissionsTraineeIdRoute,
+    AuthenticatedAdminTraineesTraineeIdRoute:
+      AuthenticatedAdminTraineesTraineeIdRoute,
+    AuthenticatedAdminAttendanceIndexRoute:
+      AuthenticatedAdminAttendanceIndexRoute,
+    AuthenticatedAdminContentIndexRoute: AuthenticatedAdminContentIndexRoute,
+    AuthenticatedAdminSubmissionsIndexRoute:
+      AuthenticatedAdminSubmissionsIndexRoute,
     AuthenticatedAdminTraineesIndexRoute: AuthenticatedAdminTraineesIndexRoute,
   }
 
