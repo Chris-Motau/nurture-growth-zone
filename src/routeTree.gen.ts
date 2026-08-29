@@ -27,6 +27,7 @@ import { Route as AuthenticatedCoursesIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedCoursesCourseIdRouteImport } from './routes/_authenticated/courses/$courseId'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedTasksTaskIdRouteImport } from './routes/_authenticated/tasks/$taskId'
+import { Route as AuthenticatedAdminTraineesIndexRouteImport } from './routes/_authenticated/admin/trainees/index'
 import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId'
 import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
 
@@ -123,6 +124,12 @@ const AuthenticatedTasksTaskIdRoute =
     path: '/tasks/$taskId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTraineesIndexRoute =
+  AuthenticatedAdminTraineesIndexRouteImport.update({
+    id: '/trainees/',
+    path: '/trainees/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedCoursesCourseIdLessonsLessonIdRoute =
   AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport.update({
     id: '/lessons/$lessonId',
@@ -154,6 +161,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/courses/': typeof AuthenticatedCoursesIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/admin/trainees/': typeof AuthenticatedAdminTraineesIndexRoute
   '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
@@ -174,6 +182,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/courses': typeof AuthenticatedCoursesIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/admin/trainees': typeof AuthenticatedAdminTraineesIndexRoute
   '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
@@ -197,6 +206,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/courses/': typeof AuthenticatedCoursesIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/_authenticated/admin/trainees/': typeof AuthenticatedAdminTraineesIndexRoute
   '/_authenticated/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/courses/'
     | '/tasks/'
+    | '/admin/trainees/'
     | '/courses/$courseId/lessons/$lessonId'
     | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   fileRoutesByTo: FileRoutesByTo
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/courses'
     | '/tasks'
+    | '/admin/trainees'
     | '/courses/$courseId/lessons/$lessonId'
     | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   id:
@@ -262,6 +274,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/courses/'
     | '/_authenticated/tasks/'
+    | '/_authenticated/admin/trainees/'
     | '/_authenticated/courses/$courseId/lessons/$lessonId'
     | '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   fileRoutesById: FileRoutesById
@@ -406,6 +419,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksTaskIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/trainees/': {
+      id: '/_authenticated/admin/trainees/'
+      path: '/trainees'
+      fullPath: '/admin/trainees/'
+      preLoaderRoute: typeof AuthenticatedAdminTraineesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/courses/$courseId/lessons/$lessonId': {
       id: '/_authenticated/courses/$courseId/lessons/$lessonId'
       path: '/lessons/$lessonId'
@@ -425,11 +445,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminTraineesIndexRoute: typeof AuthenticatedAdminTraineesIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+    AuthenticatedAdminTraineesIndexRoute: AuthenticatedAdminTraineesIndexRoute,
   }
 
 const AuthenticatedAdminRouteRouteWithChildren =
