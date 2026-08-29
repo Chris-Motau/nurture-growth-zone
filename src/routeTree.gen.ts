@@ -18,13 +18,16 @@ import { Route as LocationRouteImport } from './routes/location'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedFacilitatorRouteImport } from './routes/_authenticated/facilitator'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedCoursesIndexRouteImport } from './routes/_authenticated/courses/index'
 import { Route as AuthenticatedCoursesCourseIdRouteImport } from './routes/_authenticated/courses/$courseId'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedTasksTaskIdRouteImport } from './routes/_authenticated/tasks/$taskId'
+import { Route as AuthenticatedAdminTraineesIndexRouteImport } from './routes/_authenticated/admin/trainees/index'
 import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId'
 import { Route as AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRouteImport } from './routes/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
 
@@ -72,6 +75,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -87,6 +95,11 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
 const AuthenticatedCoursesIndexRoute =
   AuthenticatedCoursesIndexRouteImport.update({
@@ -111,6 +124,12 @@ const AuthenticatedTasksTaskIdRoute =
     path: '/tasks/$taskId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTraineesIndexRoute =
+  AuthenticatedAdminTraineesIndexRouteImport.update({
+    id: '/trainees/',
+    path: '/trainees/',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedCoursesCourseIdLessonsLessonIdRoute =
   AuthenticatedCoursesCourseIdLessonsLessonIdRouteImport.update({
     id: '/lessons/$lessonId',
@@ -133,13 +152,16 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/courses/': typeof AuthenticatedCoursesIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/admin/trainees/': typeof AuthenticatedAdminTraineesIndexRoute
   '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
@@ -157,8 +179,10 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/courses': typeof AuthenticatedCoursesIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/admin/trainees': typeof AuthenticatedAdminTraineesIndexRoute
   '/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
@@ -173,13 +197,16 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/facilitator': typeof AuthenticatedFacilitatorRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/_authenticated/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/courses/': typeof AuthenticatedCoursesIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/_authenticated/admin/trainees/': typeof AuthenticatedAdminTraineesIndexRoute
   '/_authenticated/courses/$courseId/lessons/$lessonId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdRouteWithChildren
   '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId': typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
 }
@@ -194,13 +221,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/admin'
     | '/dashboard'
     | '/facilitator'
     | '/profile'
     | '/courses/$courseId'
     | '/tasks/$taskId'
+    | '/admin/'
     | '/courses/'
     | '/tasks/'
+    | '/admin/trainees/'
     | '/courses/$courseId/lessons/$lessonId'
     | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   fileRoutesByTo: FileRoutesByTo
@@ -218,8 +248,10 @@ export interface FileRouteTypes {
     | '/profile'
     | '/courses/$courseId'
     | '/tasks/$taskId'
+    | '/admin'
     | '/courses'
     | '/tasks'
+    | '/admin/trainees'
     | '/courses/$courseId/lessons/$lessonId'
     | '/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   id:
@@ -233,13 +265,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/facilitator'
     | '/_authenticated/profile'
     | '/_authenticated/courses/$courseId'
     | '/_authenticated/tasks/$taskId'
+    | '/_authenticated/admin/'
     | '/_authenticated/courses/'
     | '/_authenticated/tasks/'
+    | '/_authenticated/admin/trainees/'
     | '/_authenticated/courses/$courseId/lessons/$lessonId'
     | '/_authenticated/courses/$courseId/lessons/$lessonId/modules/$moduleId'
   fileRoutesById: FileRoutesById
@@ -321,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -341,6 +383,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
     }
     '/_authenticated/courses/': {
       id: '/_authenticated/courses/'
@@ -370,6 +419,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksTaskIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/trainees/': {
+      id: '/_authenticated/admin/trainees/'
+      path: '/trainees'
+      fullPath: '/admin/trainees/'
+      preLoaderRoute: typeof AuthenticatedAdminTraineesIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/courses/$courseId/lessons/$lessonId': {
       id: '/_authenticated/courses/$courseId/lessons/$lessonId'
       path: '/lessons/$lessonId'
@@ -386,6 +442,22 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminTraineesIndexRoute: typeof AuthenticatedAdminTraineesIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+    AuthenticatedAdminTraineesIndexRoute: AuthenticatedAdminTraineesIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
 
 interface AuthenticatedCoursesCourseIdLessonsLessonIdRouteChildren {
   AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute: typeof AuthenticatedCoursesCourseIdLessonsLessonIdModulesModuleIdRoute
@@ -418,6 +490,7 @@ const AuthenticatedCoursesCourseIdRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedFacilitatorRoute: typeof AuthenticatedFacilitatorRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
@@ -428,6 +501,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedFacilitatorRoute: AuthenticatedFacilitatorRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,

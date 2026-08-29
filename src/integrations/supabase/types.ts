@@ -121,6 +121,71 @@ export type Database = {
           },
         ]
       }
+      meeting_attendance: {
+        Row: {
+          created_at: string
+          id: string
+          meeting_id: string
+          present: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          meeting_id: string
+          present?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          meeting_id?: string
+          present?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_attendance_meeting_id_fkey"
+            columns: ["meeting_id"]
+            isOneToOne: false
+            referencedRelation: "meetings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meetings: {
+        Row: {
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          meeting_date: string
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          meeting_date?: string
+          topic: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          meeting_date?: string
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       module_completions: {
         Row: {
           completed_at: string
