@@ -1,5 +1,3 @@
-import { Link } from "@tanstack/react-router";
-import { CheckCircle2, Circle, Clock } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 export function MarkdownContent({ content }: { content: string }) {
