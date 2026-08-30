@@ -89,8 +89,8 @@ export type Database = {
           created_at: string
           duration_minutes: number
           id: string
-          lesson_number: number
           is_hidden: boolean
+          lesson_number: number
           overview_md: string
           topic: string
           updated_at: string
@@ -100,8 +100,8 @@ export type Database = {
           created_at?: string
           duration_minutes?: number
           id?: string
-          lesson_number?: number
           is_hidden?: boolean
+          lesson_number?: number
           overview_md?: string
           topic: string
           updated_at?: string
@@ -111,8 +111,8 @@ export type Database = {
           created_at?: string
           duration_minutes?: number
           id?: string
-          lesson_number?: number
           is_hidden?: boolean
+          lesson_number?: number
           overview_md?: string
           topic?: string
           updated_at?: string
@@ -231,8 +231,8 @@ export type Database = {
         Row: {
           content_md: string
           created_at: string
-          duration_minutes: number
           document_path: string | null
+          duration_minutes: number
           id: string
           is_hidden: boolean
           lesson_id: string
@@ -244,8 +244,8 @@ export type Database = {
         Insert: {
           content_md?: string
           created_at?: string
-          duration_minutes?: number
           document_path?: string | null
+          duration_minutes?: number
           id?: string
           is_hidden?: boolean
           lesson_id: string
@@ -257,8 +257,8 @@ export type Database = {
         Update: {
           content_md?: string
           created_at?: string
-          duration_minutes?: number
           document_path?: string | null
+          duration_minutes?: number
           id?: string
           is_hidden?: boolean
           lesson_id?: string
@@ -363,8 +363,8 @@ export type Database = {
           created_at?: string
           due_date?: string | null
           id?: string
-          is_hidden?: boolean
           instructions_md?: string
+          is_hidden?: boolean
           lesson_id: string
           topic: string
           updated_at?: string
