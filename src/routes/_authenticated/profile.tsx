@@ -14,6 +14,10 @@ function ProfilePage() {
   const client = useQueryClient();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { data } = useQuery({
     queryKey: ["profile"],
@@ -32,11 +36,41 @@ function ProfilePage() {
   useEffect(() => {
     setFirstName(data?.first_name ?? "");
     setLastName(data?.last_name ?? "");
+    setEmail(data?.email ?? "");
   }, [data]);
+  useEffect(() => {
+    let active = true;
+    if (!data?.avatar_url) {
+      setAvatarUrl(null);
+      return;
+    }
+    void supabase.storage
+      .from("avatars")
+      .createSignedUrl(data.avatar_url, 3600)
+      .then(({ data: signed }) => {
+        if (active) setAvatarUrl(signed?.signedUrl ?? null);
+      });
+    return () => {
+      active = false;
+    };
+  }, [data?.avatar_url]);
   const save = useMutation({
     mutationFn: async () => {
       const { data: user } = await supabase.auth.getUser();
       if (!user.user) throw new Error("Please sign in again.");
+      const nextEmail = email.trim().toLowerCase();
+      if (!/^\S+@\S+\.\S+$/.test(nextEmail)) throw new Error("Enter a valid email address.");
+      if (newPassword && newPassword.length < 8)
+        throw new Error("Your new password must be at least 8 characters.");
+      if (newPassword && newPassword !== confirmPassword)
+        throw new Error("New passwords do not match.");
+      const authChanges: { email?: string; password?: string } = {};
+      if (nextEmail !== user.user.email?.toLowerCase()) authChanges.email = nextEmail;
+      if (newPassword) authChanges.password = newPassword;
+      if (Object.keys(authChanges).length) {
+        const { error: authError } = await supabase.auth.updateUser(authChanges);
+        if (authError) throw authError;
+      }
       const { error } = await supabase
         .from("profiles")
         .update({ first_name: firstName.trim(), last_name: lastName.trim() })
@@ -44,7 +78,13 @@ function ProfilePage() {
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success("Profile saved");
+      setNewPassword("");
+      setConfirmPassword("");
+      toast.success("Profile saved", {
+        description: email.trim().toLowerCase() !== data?.email?.toLowerCase()
+          ? "Confirm the email-change link sent to your old and new addresses."
+          : undefined,
+      });
       void client.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => toast.error(error.message),
@@ -79,9 +119,18 @@ function ProfilePage() {
           <CardTitle>Personal details</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>
-            <label className="text-sm font-medium">Email</label>
-            <p className="mt-1 text-sm text-muted-foreground">{data?.email}</p>
+          <div className="flex items-center gap-4">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary text-2xl font-semibold">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="Your profile picture" className="h-full w-full object-cover" />
+              ) : (
+                (firstName[0] ?? "?").toUpperCase()
+              )}
+            </div>
+            <div>
+              <p className="font-medium">Profile picture</p>
+              <p className="text-sm text-muted-foreground">Optional image, up to 5MB.</p>
+            </div>
           </div>
           <div>
             <input ref={fileRef} className="hidden" type="file" accept="image/*" onChange={(e) => void changeAvatar(e.target.files?.[0] ?? null)} />
@@ -104,6 +153,17 @@ function ProfilePage() {
                 onChange={(event) => setLastName(event.target.value)}
               />
             </label>
+          </div>
+          <label className="block text-sm font-medium">
+            Email address
+            <Input className="mt-1" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+          </label>
+          <div className="rounded-lg border border-border p-4">
+            <p className="text-sm font-medium">Change password <span className="font-normal text-muted-foreground">(optional)</span></p>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2">
+              <label className="text-sm font-medium">New password<Input className="mt-1" type="password" autoComplete="new-password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} /></label>
+              <label className="text-sm font-medium">Confirm password<Input className="mt-1" type="password" autoComplete="new-password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} /></label>
+            </div>
           </div>
           <Button disabled={save.isPending} onClick={() => save.mutate()}>
             Save changes
