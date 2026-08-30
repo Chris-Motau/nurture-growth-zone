@@ -123,7 +123,7 @@ function CourseEditor() {
     void (supabase.from(table) as any)
       .update(field)
       .eq("id", id)
-      .then(({ error }) => {
+      .then(({ error }: { error: Error | null }) => {
         if (error) toast.error(error.message);
         else {
           toast.success("Updated");

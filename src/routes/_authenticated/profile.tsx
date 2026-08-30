@@ -58,15 +58,15 @@ function ProfilePage() {
   }
   async function changeAvatar(file: File | null) {
     if (!file) return;
-    if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) return toast.error("Choose an image under 5MB.");
+    if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) { toast.error("Choose an image under 5MB."); return; }
     const { data: user } = await supabase.auth.getUser();
-    if (!user.user) return toast.error("Please sign in again.");
+    if (!user.user) { toast.error("Please sign in again."); return; }
     const extension = file.name.split(".").pop() ?? "jpg";
     const path = `${user.user.id}/avatar.${extension}`;
     const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     const { error: profileError } = await supabase.from("profiles").update({ avatar_url: path }).eq("id", user.user.id);
-    if (profileError) return toast.error(profileError.message);
+    if (profileError) { toast.error(profileError.message); return; }
     toast.success("Profile picture updated");
     await client.invalidateQueries({ queryKey: ["profile"] });
   }

@@ -58,13 +58,13 @@ function FacilitatorPage() {
 
   async function addInvite() {
     const normalised = email.trim().toLowerCase();
-    if (!/^\S+@\S+\.\S+$/.test(normalised)) return toast.error("Enter a valid trainee email");
+    if (!/^\S+@\S+\.\S+$/.test(normalised)) { toast.error("Enter a valid trainee email"); return; }
     const { error } = await supabase.from("trainee_invites").insert({
       email: normalised,
       cohort: cohort.trim() || null,
       facilitator_name: data?.profile ? `${data.profile.first_name} ${data.profile.last_name}`.trim() : null,
     });
-    if (error) return toast.error(error.message.includes("duplicate") ? "That trainee email is already registered." : error.message);
+    if (error) { toast.error(error.message.includes("duplicate") ? "That trainee email is already registered." : error.message); return; }
     setEmail(""); setCohort("");
     toast.success("Trainee email registered");
     await queryClient.invalidateQueries({ queryKey: ["facilitator-workspace"] });
