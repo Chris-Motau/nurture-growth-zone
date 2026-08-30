@@ -32,7 +32,7 @@ function AttendancePage() {
       const { data: user } = await supabase.auth.getUser();
       const { error } = await supabase
         .from("meetings")
-        .insert({ topic, meeting_date: date, content, created_by: user.user?.id });
+        .insert({ topic, meeting_date: date, content, created_by: user.user?.id ?? null });
       if (error) throw error;
     },
     onSuccess: () => {

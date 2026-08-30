@@ -120,11 +120,10 @@ function CourseEditor() {
     value: string,
   ) => {
     const field = table === "courses" ? { title: value } : { topic: value };
-    void supabase
-      .from(table)
+    void (supabase.from(table) as any)
       .update(field)
       .eq("id", id)
-      .then(({ error }) => {
+      .then(({ error }: { error: Error | null }) => {
         if (error) toast.error(error.message);
         else {
           toast.success("Updated");
@@ -225,7 +224,7 @@ function LessonEditor({
       table === "modules"
         ? { lesson_id: lesson.id, topic, content_md: "" }
         : { lesson_id: lesson.id, topic, instructions_md: "" };
-    const { error } = await supabase.from(table).insert(payload);
+    const { error } = await supabase.from(table).insert(payload as never);
     if (error) toast.error(error.message);
     else {
       refresh();
@@ -238,7 +237,7 @@ function LessonEditor({
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
     const path = `${moduleId}/${Date.now()}-${safeName}`;
     const { error: uploadError } = await supabase.storage.from("module-documents").upload(path, file);
-    if (uploadError) return toast.error(uploadError.message);
+    if (uploadError) { toast.error(uploadError.message); return; }
     update("modules", moduleId, { document_path: path });
   };
   return (
