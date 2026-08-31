@@ -10,7 +10,7 @@ INSERT INTO public.user_roles (user_id, role)
 SELECT id, 'facilitator'::public.app_role
 FROM public.profiles
 WHERE lower(trim(email)) = 'leravero@gmail.com'
-ON CONFLICT (user_id, role) DO NOTHING;
+ON CONFLICT (user_id, role) DO NOTHING;0
 
 UPDATE public.profiles
 SET facilitator_verified = true,

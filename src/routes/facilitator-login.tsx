@@ -43,9 +43,15 @@ function FacilitatorLoginPage() {
   const [busy, setBusy] = useState(false);
   const [resetting, setResetting] = useState(false);
 
+  const redirectStaff = async (userId: string) => {
+    const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+    const isAdmin = (roles ?? []).some((role) => role.role === "admin");
+    void navigate({ to: isAdmin ? "/admin" : "/admin/trainees", replace: true });
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void navigate({ to: "/facilitator", replace: true });
+      if (data.session) void redirectStaff(data.session.user.id);
     });
   }, [navigate]);
 
@@ -96,7 +102,8 @@ function FacilitatorLoginPage() {
     setBusy(false);
     toast.success("Signed in", { description: "Welcome back to Hamonate LMS." });
     await router.invalidate();
-    void navigate({ to: "/facilitator", replace: true });
+    const isAdmin = (roles ?? []).some((role) => role.role === "admin");
+    void navigate({ to: isAdmin ? "/admin" : "/admin/trainees", replace: true });
   };
 
   const handleReset = async () => {

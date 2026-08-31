@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import logoAsset from "@/assets/hamonate-logo.jpg.asset.json";
 import { Github, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
 
 export function SiteFooter() {
@@ -9,7 +8,7 @@ export function SiteFooter() {
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
             <img
-              src={logoAsset.url}
+              src="/favicon.png"
               alt="Hamonate Learning Management System logo"
               width={36}
               height={36}

@@ -1,12 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { Users } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { fetchTraineeOverview, traineeName } from "@/lib/admin-queries";
 import { performanceGrade } from "@/lib/admin-static";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/_authenticated/admin/trainees/")({
   head: () => ({
@@ -30,9 +35,35 @@ export const Route = createFileRoute("/_authenticated/admin/trainees/")({
 });
 
 function TraineesPage() {
+  const queryClient = useQueryClient();
+  const [email, setEmail] = useState("");
+  const [cohort, setCohort] = useState("");
   const { data, isLoading } = useQuery({
     queryKey: ["admin-trainees"],
     queryFn: fetchTraineeOverview,
+  });
+  const addInvite = useMutation({
+    mutationFn: async () => {
+      const normalised = email.trim().toLowerCase();
+      if (!/^\S+@\S+\.\S+$/.test(normalised)) throw new Error("Enter a valid trainee email.");
+      const { data: userData } = await supabase.auth.getUser();
+      const { data: profile } = userData.user
+        ? await supabase.from("profiles").select("first_name, last_name").eq("id", userData.user.id).maybeSingle()
+        : { data: null };
+      const { error } = await supabase.from("trainee_invites").insert({
+        email: normalised,
+        cohort: cohort.trim() || null,
+        facilitator_name: profile ? `${profile.first_name} ${profile.last_name}`.trim() || null : null,
+      });
+      if (error) throw error;
+    },
+    onSuccess: async () => {
+      setEmail("");
+      setCohort("");
+      toast.success("Trainee email registered");
+      await queryClient.invalidateQueries({ queryKey: ["admin-trainees"] });
+    },
+    onError: (error) => toast.error(error.message.includes("duplicate") ? "That trainee email is already registered." : error.message),
   });
 
   return (
@@ -44,6 +75,19 @@ function TraineesPage() {
       <p className="mt-2 text-muted-foreground">
         Select a trainee to view their attendance, submissions and overall performance.
       </p>
+      <Card className="mt-7">
+        <CardHeader>
+          <CardTitle className="text-lg">Register a trainee email</CardTitle>
+          <CardDescription>
+            The trainee can create an account only with an email registered here.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
+          <Input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="trainee@email.com" />
+          <Input value={cohort} onChange={(event) => setCohort(event.target.value)} placeholder="Cohort (optional)" />
+          <Button disabled={!email || addInvite.isPending} onClick={() => addInvite.mutate()}>Register trainee</Button>
+        </CardContent>
+      </Card>
 
       {isLoading ? (
         <p className="mt-8 text-muted-foreground">Loading trainees…</p>

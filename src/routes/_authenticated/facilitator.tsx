@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { LogOut, ShieldAlert, Users } from "lucide-react";
 import { useState } from "react";
@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const Route = createFileRoute("/_authenticated/facilitator")({
+  beforeLoad: () => {
+    throw redirect({ to: "/admin/trainees" });
+  },
   head: () => ({
     meta: [
       { title: "Facilitator workspace — Hamonate LMS" },
