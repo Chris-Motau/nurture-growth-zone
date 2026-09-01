@@ -49,7 +49,7 @@ function TasksPage() {
                 <div className="flex-1">
                   <CardTitle className="text-lg">{task.topic}</CardTitle>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {task.lessons.topic} ·{" "}
+                    {task.lessons?.topic ?? "Lesson"} ·{" "}
                     {task.due_date
                       ? `Due ${new Intl.DateTimeFormat("en-ZA", { dateStyle: "medium" }).format(new Date(task.due_date))}`
                       : "No due date"}
