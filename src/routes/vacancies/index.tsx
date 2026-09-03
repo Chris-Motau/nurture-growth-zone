@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowRight, Briefcase, CalendarDays, MapPin } from "lucide-react";
+import { ArrowRight, Briefcase, CalendarDays, Clock, MapPin } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,8 @@ export const Route = createFileRoute("/vacancies/")({
       { property: "og:title", content: "Available Vacancies — Hamonate LMS" },
       {
         property: "og:description",
-        content: "Open Work Integrated Learning, Internship and Learnership opportunities at Hamonate.",
+        content:
+          "Open Work Integrated Learning, Internship and Learnership opportunities at Hamonate.",
       },
     ],
   }),
@@ -104,6 +105,12 @@ function VacanciesPage() {
                             {vacancy.description}
                           </p>
                           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                            {vacancy.duration ? (
+                              <span className="inline-flex items-center gap-1">
+                                <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                                {vacancy.duration}
+                              </span>
+                            ) : null}
                             {vacancy.location ? (
                               <span className="inline-flex items-center gap-1">
                                 <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
@@ -116,7 +123,10 @@ function VacanciesPage() {
                             </span>
                           </div>
                           <Button asChild className="mt-5 w-full sm:w-auto">
-                            <Link to="/vacancies/$vacancyId/apply" params={{ vacancyId: vacancy.id }}>
+                            <Link
+                              to="/vacancies/$vacancyId/apply"
+                              params={{ vacancyId: vacancy.id }}
+                            >
                               Apply now
                               <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
                             </Link>

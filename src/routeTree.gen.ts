@@ -18,6 +18,7 @@ import { Route as LocationRouteImport } from './routes/location'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as VacancyAdminRouteImport } from './routes/vacancy-admin'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedFacilitatorRouteImport } from './routes/_authenticated/facilitator'
@@ -83,6 +84,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VacancyAdminRoute = VacancyAdminRouteImport.update({
+  id: '/vacancy-admin',
+  path: '/vacancy-admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/vacancy-admin': typeof VacancyAdminRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
@@ -252,6 +259,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/vacancy-admin': typeof VacancyAdminRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
   '/profile': typeof AuthenticatedProfileRoute
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
+  '/vacancy-admin': typeof VacancyAdminRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/facilitator': typeof AuthenticatedFacilitatorRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/vacancy-admin'
     | '/admin'
     | '/dashboard'
     | '/facilitator'
@@ -351,6 +361,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/vacancy-admin'
     | '/dashboard'
     | '/facilitator'
     | '/profile'
@@ -383,6 +394,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/reset-password'
     | '/terms'
+    | '/vacancy-admin'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard'
     | '/_authenticated/facilitator'
@@ -417,6 +429,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
+  VacancyAdminRoute: typeof VacancyAdminRoute
   VacanciesIndexRoute: typeof VacanciesIndexRoute
   VacanciesVacancyIdApplyRoute: typeof VacanciesVacancyIdApplyRoute
 }
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vacancy-admin': {
+      id: '/vacancy-admin'
+      path: '/vacancy-admin'
+      fullPath: '/vacancy-admin'
+      preLoaderRoute: typeof VacancyAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -747,6 +767,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
+  VacancyAdminRoute: VacancyAdminRoute,
   VacanciesIndexRoute: VacanciesIndexRoute,
   VacanciesVacancyIdApplyRoute: VacanciesVacancyIdApplyRoute,
 }

@@ -19,6 +19,24 @@ export function SiteHeader() {
   const { session, loading } = useSession();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const userId = session?.user.id;
+  const { data: roles = [], isLoading: rolesLoading } = useQuery({
+    queryKey: ["site-header-roles", userId],
+    queryFn: async () => {
+      if (!userId) return [];
+
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId);
+
+      if (error) throw error;
+      return data ?? [];
+    },
+    enabled: Boolean(userId),
+  });
+  const isStaff = roles.some((role) => role.role === "facilitator" || role.role === "admin");
+  const isNavigationLoading = loading || (Boolean(session) && rolesLoading);
 
   async function handleSignOut() {
     setOpen(false);
@@ -43,37 +61,47 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              activeProps={{ className: "bg-secondary text-foreground" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {!loading &&
+            !session &&
+            navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.to === "/" }}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                activeProps={{ className: "bg-secondary text-foreground" }}
+              >
+                {item.label}
+              </Link>
+            ))}
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          {loading ? null : session ? (
+          {isNavigationLoading ? null : session ? (
             <>
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/admin">Admin</Link>
-              </Button>
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/courses">Courses</Link>
-              </Button>
-              <Button asChild variant="ghost" size="sm">
-                <Link to="/dashboard">My dashboard</Link>
-              </Button>
+              {isStaff ? (
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/admin">Facilitator dashboard</Link>
+                </Button>
+              ) : (
+                <>
+                  <Button asChild variant="ghost" size="sm">
+                    <Link to="/courses">Courses</Link>
+                  </Button>
+                  <Button asChild variant="ghost" size="sm">
+                    <Link to="/dashboard">My dashboard</Link>
+                  </Button>
+                </>
+              )}
               <Button size="sm" variant="outline" onClick={handleSignOut}>
                 Sign out
               </Button>
             </>
           ) : (
             <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/vacancy-admin">Test vacancy admin</Link>
+              </Button>
               <Button asChild variant="ghost" size="sm">
                 <Link to="/facilitator-login">Facilitator sign in</Link>
               </Button>
@@ -98,47 +126,59 @@ export function SiteHeader() {
 
       <div className={cn("border-t border-border/70 md:hidden", open ? "block" : "hidden")}>
         <nav aria-label="Mobile" className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              activeProps={{ className: "bg-secondary text-foreground" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-          {loading ? null : session ? (
+          {!loading &&
+            !session &&
+            navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeOptions={{ exact: item.to === "/" }}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                activeProps={{ className: "bg-secondary text-foreground" }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          {isNavigationLoading ? null : session ? (
             <>
-              <Link
-                to="/admin"
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
-                Admin
-              </Link>
-              <Link
-                to="/courses"
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
-                Courses
-              </Link>
-              <Link
-                to="/dashboard"
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-              >
-                My dashboard
-              </Link>
+              {isStaff ? (
+                <Link
+                  to="/admin"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                >
+                  Facilitator dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/courses"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  >
+                    Courses
+                  </Link>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setOpen(false)}
+                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                  >
+                    My dashboard
+                  </Link>
+                </>
+              )}
               <Button variant="outline" size="sm" className="mt-1" onClick={handleSignOut}>
                 Sign out
               </Button>
             </>
           ) : (
             <>
+              <Button asChild variant="outline" size="sm" className="mt-1">
+                <Link to="/vacancy-admin" onClick={() => setOpen(false)}>
+                  Test vacancy admin
+                </Link>
+              </Button>
               <Button asChild size="sm" className="mt-1">
                 <Link to="/auth" onClick={() => setOpen(false)}>
                   Sign in

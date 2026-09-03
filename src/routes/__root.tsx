@@ -14,8 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { Toaster } from "@/components/ui/sonner";
+import { useSession } from "@/hooks/use-session";
 import { supabase } from "@/integrations/supabase/client";
-
 
 function NotFoundComponent() {
   return (
@@ -125,6 +125,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const { session, loading } = useSession();
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
@@ -143,10 +144,9 @@ function RootComponent() {
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
         </main>
-        <SiteFooter />
+        {!loading && !session && <SiteFooter />}
       </div>
       <Toaster richColors position="top-center" />
     </QueryClientProvider>
   );
 }
-

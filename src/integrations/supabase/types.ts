@@ -439,6 +439,7 @@ export type Database = {
           closing_date: string | null
           created_at: string
           description: string
+          duration: string
           id: string
           is_open: boolean
           location: string | null
@@ -449,6 +450,7 @@ export type Database = {
           closing_date?: string | null
           created_at?: string
           description?: string
+          duration?: string
           id?: string
           is_open?: boolean
           location?: string | null
@@ -459,6 +461,7 @@ export type Database = {
           closing_date?: string | null
           created_at?: string
           description?: string
+          duration?: string
           id?: string
           is_open?: boolean
           location?: string | null
@@ -477,6 +480,7 @@ export type Database = {
           id: string
           id_number: string | null
           phone: string
+          status: string
           vacancy_id: string
         }
         Insert: {
@@ -488,6 +492,7 @@ export type Database = {
           id?: string
           id_number?: string | null
           phone: string
+          status?: string
           vacancy_id: string
         }
         Update: {
@@ -499,6 +504,7 @@ export type Database = {
           id?: string
           id_number?: string | null
           phone?: string
+          status?: string
           vacancy_id?: string
         }
         Relationships: [
