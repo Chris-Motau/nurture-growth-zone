@@ -324,3 +324,4 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+- Extract the attendance as pdf, excel
