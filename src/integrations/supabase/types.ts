@@ -434,6 +434,83 @@ export type Database = {
         }
         Relationships: []
       }
+      vacancies: {
+        Row: {
+          closing_date: string | null
+          created_at: string
+          description: string
+          id: string
+          is_open: boolean
+          location: string | null
+          program: Database["public"]["Enums"]["program_type"]
+          title: string
+        }
+        Insert: {
+          closing_date?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_open?: boolean
+          location?: string | null
+          program: Database["public"]["Enums"]["program_type"]
+          title: string
+        }
+        Update: {
+          closing_date?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_open?: boolean
+          location?: string | null
+          program?: Database["public"]["Enums"]["program_type"]
+          title?: string
+        }
+        Relationships: []
+      }
+      vacancy_applications: {
+        Row: {
+          cover_note: string | null
+          created_at: string
+          documents: Json
+          email: string
+          full_name: string
+          id: string
+          id_number: string | null
+          phone: string
+          vacancy_id: string
+        }
+        Insert: {
+          cover_note?: string | null
+          created_at?: string
+          documents?: Json
+          email: string
+          full_name: string
+          id?: string
+          id_number?: string | null
+          phone: string
+          vacancy_id: string
+        }
+        Update: {
+          cover_note?: string | null
+          created_at?: string
+          documents?: Json
+          email?: string
+          full_name?: string
+          id?: string
+          id_number?: string | null
+          phone?: string
+          vacancy_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vacancy_applications_vacancy_id_fkey"
+            columns: ["vacancy_id"]
+            isOneToOne: false
+            referencedRelation: "vacancies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -451,6 +528,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "facilitator" | "trainee"
+      program_type: "work_integrated_learning" | "internship" | "learnership"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -579,6 +657,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "facilitator", "trainee"],
+      program_type: ["work_integrated_learning", "internship", "learnership"],
     },
   },
 } as const
