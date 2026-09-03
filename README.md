@@ -284,6 +284,54 @@ Trainee can access their profile frontend logic
 
 Trainee can access their profile backend logic
 
+On the homepage Hero Section
+
+Add an View available vacancies button.
+
+When applicant clicks on view available vacancies button:
+
+Show available vacancies categorized per program under (Work Integrated Learning, Internship & Learnership)
+
+When applicant clicks a listed program:
+
+Display an application form requiring the following documents as pdf: 
+
+1. Proof of account(Required)
+
+2. SARS document(Required)
+
+3. ID(Required)
+
+4. Confirmation of unemployment affidavit(Required)
+
+5. Resume(Required)
+
+6. Matric Certificate(Required)
+
+7. Qualification(Optional)
+
+8. Academic Record(Optional)
+
+9. Other Certificates(Optional)
+
+For now let me acces this without login for testing purposes
+Create an Admin Dashboard:
+The admin should be able to post Vacancies that are available per program category(Work Integrated learning, Internship & learnership):
+- Admin should input:
+  - program title.
+  - Program description
+  - Closing date.
+  - Program duration.
+- Allow admin to edit/hide/Delete posts
+The admin should be able to view applications submitted by applicants.
+ - Display number of applications received per category .
+ - When admin clicks on listed category display applicants using their names in a numbered format and the option to either            decline/approve application
+ - When admin clicks on listed applicant list the documents the applicant has submitted(as per field in which the applicant submitted e.g ID, Proof of Account etc. Once Admin clicks on listed applicant change Application status to underreview.
+ - Allow admin to view and download listed documents
+ - 
+
+
+
  Admin and tranee dashboard will be in seperate repositories so its better to start with trainee dasboard we will utilize firebase as backened 
 
 // Import the functions you need from the SDKs you need
