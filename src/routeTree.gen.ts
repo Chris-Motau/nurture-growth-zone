@@ -22,12 +22,14 @@ import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authentic
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedFacilitatorRouteImport } from './routes/_authenticated/facilitator'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as VacanciesIndexRouteImport } from './routes/vacancies/index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminProfileRouteImport } from './routes/_authenticated/admin/profile'
 import { Route as AuthenticatedCoursesIndexRouteImport } from './routes/_authenticated/courses/index'
 import { Route as AuthenticatedCoursesCourseIdRouteImport } from './routes/_authenticated/courses/$courseId'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedTasksTaskIdRouteImport } from './routes/_authenticated/tasks/$taskId'
+import { Route as VacanciesVacancyIdApplyRouteImport } from './routes/vacancies/$vacancyId.apply'
 import { Route as AuthenticatedAdminAttendanceIndexRouteImport } from './routes/_authenticated/admin/attendance/index'
 import { Route as AuthenticatedAdminAttendanceMeetingIdRouteImport } from './routes/_authenticated/admin/attendance/$meetingId'
 import { Route as AuthenticatedAdminContentIndexRouteImport } from './routes/_authenticated/admin/content/index'
@@ -104,6 +106,11 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const VacanciesIndexRoute = VacanciesIndexRouteImport.update({
+  id: '/vacancies/',
+  path: '/vacancies/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -138,6 +145,11 @@ const AuthenticatedTasksTaskIdRoute =
     path: '/tasks/$taskId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const VacanciesVacancyIdApplyRoute = VacanciesVacancyIdApplyRouteImport.update({
+  id: '/vacancies/$vacancyId/apply',
+  path: '/vacancies/$vacancyId/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminAttendanceIndexRoute =
   AuthenticatedAdminAttendanceIndexRouteImport.update({
     id: '/attendance/',
@@ -212,9 +224,11 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/vacancies/': typeof VacanciesIndexRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/vacancies/$vacancyId/apply': typeof VacanciesVacancyIdApplyRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/courses/': typeof AuthenticatedCoursesIndexRoute
   '/tasks/': typeof AuthenticatedTasksIndexRoute
@@ -241,9 +255,11 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/facilitator': typeof AuthenticatedFacilitatorRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/vacancies': typeof VacanciesIndexRoute
   '/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/vacancies/$vacancyId/apply': typeof VacanciesVacancyIdApplyRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/courses': typeof AuthenticatedCoursesIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
@@ -273,9 +289,11 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/facilitator': typeof AuthenticatedFacilitatorRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/vacancies/': typeof VacanciesIndexRoute
   '/_authenticated/admin/profile': typeof AuthenticatedAdminProfileRoute
   '/_authenticated/courses/$courseId': typeof AuthenticatedCoursesCourseIdRouteWithChildren
   '/_authenticated/tasks/$taskId': typeof AuthenticatedTasksTaskIdRoute
+  '/vacancies/$vacancyId/apply': typeof VacanciesVacancyIdApplyRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/courses/': typeof AuthenticatedCoursesIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
@@ -305,9 +323,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/facilitator'
     | '/profile'
+    | '/vacancies/'
     | '/admin/profile'
     | '/courses/$courseId'
     | '/tasks/$taskId'
+    | '/vacancies/$vacancyId/apply'
     | '/admin/'
     | '/courses/'
     | '/tasks/'
@@ -334,9 +354,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/facilitator'
     | '/profile'
+    | '/vacancies'
     | '/admin/profile'
     | '/courses/$courseId'
     | '/tasks/$taskId'
+    | '/vacancies/$vacancyId/apply'
     | '/admin'
     | '/courses'
     | '/tasks'
@@ -365,9 +387,11 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/facilitator'
     | '/_authenticated/profile'
+    | '/vacancies/'
     | '/_authenticated/admin/profile'
     | '/_authenticated/courses/$courseId'
     | '/_authenticated/tasks/$taskId'
+    | '/vacancies/$vacancyId/apply'
     | '/_authenticated/admin/'
     | '/_authenticated/courses/'
     | '/_authenticated/tasks/'
@@ -393,6 +417,8 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
+  VacanciesIndexRoute: typeof VacanciesIndexRoute
+  VacanciesVacancyIdApplyRoute: typeof VacanciesVacancyIdApplyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -488,6 +514,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/vacancies/': {
+      id: '/vacancies/'
+      path: '/vacancies'
+      fullPath: '/vacancies/'
+      preLoaderRoute: typeof VacanciesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
       path: '/'
@@ -529,6 +562,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tasks/$taskId'
       preLoaderRoute: typeof AuthenticatedTasksTaskIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/vacancies/$vacancyId/apply': {
+      id: '/vacancies/$vacancyId/apply'
+      path: '/vacancies/$vacancyId/apply'
+      fullPath: '/vacancies/$vacancyId/apply'
+      preLoaderRoute: typeof VacanciesVacancyIdApplyRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/attendance/': {
       id: '/_authenticated/admin/attendance/'
@@ -707,6 +747,8 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
+  VacanciesIndexRoute: VacanciesIndexRoute,
+  VacanciesVacancyIdApplyRoute: VacanciesVacancyIdApplyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

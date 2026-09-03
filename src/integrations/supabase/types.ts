@@ -434,6 +434,83 @@ export type Database = {
         }
         Relationships: []
       }
+      vacancies: {
+        Row: {
+          closing_date: string | null
+          created_at: string
+          description: string
+          id: string
+          is_open: boolean
+          location: string | null
+          program: Database["public"]["Enums"]["program_type"]
+          title: string
+        }
+        Insert: {
+          closing_date?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_open?: boolean
+          location?: string | null
+          program: Database["public"]["Enums"]["program_type"]
+          title: string
+        }
+        Update: {
+          closing_date?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_open?: boolean
+          location?: string | null
+          program?: Database["public"]["Enums"]["program_type"]
+          title?: string
+        }
+        Relationships: []
+      }
+      vacancy_applications: {
+        Row: {
+          cover_note: string | null
+          created_at: string
+          documents: Json
+          email: string
+          full_name: string
+          id: string
+          id_number: string | null
+          phone: string
+          vacancy_id: string
+        }
+        Insert: {
+          cover_note?: string | null
+          created_at?: string
+          documents?: Json
+          email: string
+          full_name: string
+          id?: string
+          id_number?: string | null
+          phone: string
+          vacancy_id: string
+        }
+        Update: {
+          cover_note?: string | null
+          created_at?: string
+          documents?: Json
+          email?: string
+          full_name?: string
+          id?: string
+          id_number?: string | null
+          phone?: string
+          vacancy_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vacancy_applications_vacancy_id_fkey"
+            columns: ["vacancy_id"]
+            isOneToOne: false
+            referencedRelation: "vacancies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -451,6 +528,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "facilitator" | "trainee"
+      program_type: "work_integrated_learning" | "internship" | "learnership"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -466,12 +544,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -495,11 +573,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -520,11 +598,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -545,11 +623,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -562,11 +640,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -579,6 +657,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "facilitator", "trainee"],
+      program_type: ["work_integrated_learning", "internship", "learnership"],
     },
   },
 } as const
