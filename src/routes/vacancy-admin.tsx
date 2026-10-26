@@ -384,7 +384,7 @@ function VacancyAdminPage() {
                   id="duration"
                   name="duration"
                   placeholder="e.g. 12 months"
-                  defaultValue={editingVacancy?.duration}
+                  defaultValue={editingVacancy?.duration ?? ""}
                   required
                 />
               </div>
