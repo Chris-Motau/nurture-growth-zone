@@ -32,7 +32,7 @@ The app also features a public-facing site (welcome page, about us, company loca
 
 - **Frontend:** React 19, TypeScript, Tailwind CSS v4, shadcn/ui (Radix), TanStack Router/Query
 - **Backend:** Supabase (hosted PostgreSQL with row-level security, Auth, Storage buckets for avatars, module documents and application PDFs), TanStack Start server functions for app-internal logic
-- **Tooling:** Vite, Drizzle ORM, ESLint, Prettier, pnpm/npm-compatible lockfile, Bun as the preferred runtime
+- **Tooling:** npm, Vite, Drizzle ORM, ESLint and Prettier
 
 ## IDEs Used
 
@@ -53,18 +53,17 @@ The project uses **Git** for version control, with the repository hosted on **Gi
 
 ### Prerequisites
 
-- **Node.js** 20+ (or **Bun** 1.1+) installed
+- **Node.js** 20+ with npm installed
 - **Git** installed
 - A Supabase project (hosted PostgreSQL) if you want to run against a real backend
 
 ### Clone the repository
 
 ```bash
-git clone <repository-url>
-cd hamonate-lms
+git clone https://github.com/Chris-Motau/nurture-growth-zone.git
+cd nuture-growth-zone
+code .
 ```
-
-(Replace `<repository-url>` with the actual URL of this repository.)
 
 ### Run it locally
 
@@ -72,31 +71,25 @@ cd hamonate-lms
 
    ```bash
    npm install
-   # or
-   bun install
-   ```
 
-2. **Configure environment variables** — create a `.env` file in the project root:
-
-   ```bash
-   VITE_SUPABASE_URL=<your-supabase-project-url>
-   VITE_SUPABASE_PUBLISHABLE_KEY=<your-supabase-anon/publishable-key>
-   VITE_SUPABASE_PROJECT_ID=<your-supabase-project-id>
-   ```
-
-   These come from your own Supabase project settings. Never commit real keys — `.env` is excluded from version control.
-
-3. **Apply the database schema** — run the SQL files in `supabase/migrations/` against your Supabase project in timestamp order (they create the tables, row-level security policies and seed content).
-
-4. **Start the development server**
+2. **Start the development server**
 
    ```bash
    npm run dev
-   # or
-   bun run dev
    ```
 
-5. Open **http://localhost:8080** in your browser (or the port shown in the terminal).
+3. Open **http://localhost:8080** in your browser (or the port shown in the terminal).
+
+### Test Accounts
+
+Use these accounts to test the admin and trainee login flows:
+
+| Role | Email |
+| --- | --- |
+| Admin | `leravero@gmail.com` | password: 'ChrisX@0s! |
+| Trainee | `chrismotau@gmail.com` | password: 72FBH3T7qdz@rwb |
+
+Passwords are not stored in this repository. Obtain test passwords through a secure channel.
 
 ### Other useful scripts
 
@@ -134,4 +127,4 @@ supabase/
 
 ## License
 
-All rights reserved — © Hamonate. This repository is for evaluation purposes; no license is granted for reuse or redistribution.
+All rights reserved. This repository is for evaluation purposes; no license is granted for reuse or redistribution.
